@@ -1,75 +1,74 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { Card, Button, Table, Note } from '@geist-ui/react'
-import { useState } from 'react'
+import {
+  Card,
+  Button,
+  Note,
+  Textarea,
+  useToasts,
+  useClipboard,
+} from '@geist-ui/react'
+import { useEffect, useState } from 'react'
 import { useSQL } from '../hooks/useSQL'
 
 import Editor from '../components/Editor'
+import { ResultSet } from '../components/ResultSet'
 import { useRouter } from 'next/router'
-import { format } from 'sql-formatter'
+import {
+  formatQuery,
+  getDefaultQuery,
+  getRowDataFromResultSet,
+} from '../lib/sql'
+
+function encodeHash(state: Record<any, any>) {
+  return Buffer.from(JSON.stringify(state)).toString('base64')
+}
+
+function decodeHash(hash: string) {
+  return JSON.parse(Buffer.from(hash, 'base64').toString())
+}
 
 const Home: NextPage<{
   slug: string
 }> = ({ slug }) => {
   const router = useRouter()
+  const [, setToast] = useToasts()
+  const { copy } = useClipboard()
 
-  let defaultQuery = `SELECT
-	first_name,
-	second_name,
-	total_points,
-	element_type AS position,
-	minutes,
-	now_cost AS price,
-	influence,
-	threat,
-	creativity
-FROM
-	players
-WHERE
-	position = 'GK'
-ORDER BY
-	CAST(total_points AS INTEGER)
-	DESC,
-	CAST(minutes AS INTEGER)
-	DESC
-LIMIT 20`
+  let defaultState = {
+    text: 'Write a quick description of your strategy!',
+    defaultQuery: getDefaultQuery(),
+  }
   if (slug) {
-    defaultQuery = Buffer.from(slug, 'base64').toString()
+    const decodedState = decodeHash(slug)
+    defaultState = {
+      text: decodedState.text,
+      defaultQuery: decodedState.queryDraft,
+    }
   }
 
-  const [queryDraft, setQueryDraft] = useState(defaultQuery)
+  const [slugLength, setSlugLength] = useState(slug?.length || 0)
 
-  const { query, setQuery, result, schema, error } = useSQL({
+  const [text, setText] = useState(defaultState.text)
+  const [queryDraft, setQueryDraft] = useState(defaultState.defaultQuery)
+
+  const { setQuery, result, schema, error } = useSQL({
     query: queryDraft,
     databasePath: '/static/fpl.db',
   })
 
-  const columns = result?.[0]?.columns
-  //@ts-expect-error
-  const data = result?.[0]?.values.map((row: string[]) => {
-    return row.reduce((acc, column: string, index) => {
-      return {
-        ...acc,
-        [`${columns?.[index]}`]: column,
-      }
-    }, {})
-  })
+  const columns = result?.[0]?.columns || []
+  const data = getRowDataFromResultSet(columns, result || [])
 
-  const TableResultSet = ({ data }: { data: any }) => {
-    return (
-      <Table data={data}>
-        {columns?.map((c: string, index: number) => {
-          return (
-            <Table.Column
-              key={c.concat(index.toString())}
-              prop={c}
-              label={c}
-            ></Table.Column>
-          )
-        })}
-      </Table>
-    )
-  }
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const urlStateHash = encodeHash({ text, queryDraft })
+      setSlugLength(urlStateHash.length)
+    }, 1000)
+    return () => {
+      clearInterval(timer)
+    }
+  })
 
   return (
     <div>
@@ -77,15 +76,15 @@ LIMIT 20`
         <title>FPL.cool</title>
         <meta
           name="description"
-          content="fpl.cool - analyse fantasy premier league data with SQL"
+          content="FPL.cool - analyse fantasy premier league data with SQL"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
-        <h1>Welcome to fpl.cool</h1>
+      <main className="p-4">
+        <h1>Welcome to FPL.cool</h1>
 
-        <Note label="Schema">{schema}</Note>
+        <Note label="Schema">{formatQuery(schema || '')}</Note>
 
         {Boolean(error) && (
           <Note type="error" label="Error">
@@ -93,7 +92,17 @@ LIMIT 20`
           </Note>
         )}
 
-        <Card>
+        <Card className="flex-column space-x-2">
+          <Textarea
+            type="success"
+            height="200px"
+            width="100%"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+          />
+
+          <div className="m-2"></div>
+
           <Editor
             lang="sql"
             dialect="postgresql"
@@ -110,17 +119,7 @@ LIMIT 20`
               shadow
               type="secondary"
               onClick={() => {
-                try {
-                  setQueryDraft(
-                    format(queryDraft, {
-                      language: 'postgresql',
-                      uppercase: true,
-                    })
-                  )
-                } catch (e) {
-                  console.error(`Failed to format SQL`)
-                  console.error(e)
-                }
+                setQueryDraft(formatQuery(queryDraft))
               }}
             >
               Format SQL
@@ -140,20 +139,27 @@ LIMIT 20`
               shadow
               type="secondary"
               onClick={() => {
-                const urlStateHash = Buffer.from(query).toString('base64')
+                const urlStateHash = encodeHash({ text, queryDraft })
+
+                const protocol = window.location.hostname.startsWith('local')
+                  ? 'http://'
+                  : 'https://'
+                copy(protocol + window.location.host + '/' + urlStateHash)
+                setToast({ text: 'URL copied to clipboard!' })
+
                 router.replace(urlStateHash, undefined, {
                   shallow: true,
                 })
               }}
             >
-              Save
+              Save and copy URL ({slugLength} / 2048)
             </Button>
           </div>
         </Card>
 
         {data && (
           <Card>
-            <TableResultSet data={data} />
+            <ResultSet columns={columns} data={data} />
           </Card>
         )}
       </main>

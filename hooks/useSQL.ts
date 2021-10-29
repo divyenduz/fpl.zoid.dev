@@ -17,7 +17,7 @@ export function useSQL({ query: queryArg, databasePath }: UseSQLArgs) {
     const [result, setResult] = useState<QueryExecResult[] | null>(null)
 
     const schemaQuery = 'SELECT sql as Schema FROM sqlite_master'
-    const [schema, setSchema] = useState<SqlValue[] | null>(null)
+    const [schema, setSchema] = useState<string | null>(null)
 
     useEffect(() => {
         const load = async () => {
@@ -32,16 +32,18 @@ export function useSQL({ query: queryArg, databasePath }: UseSQLArgs) {
             const r = await fetch(databasePath)
             const db = await r.arrayBuffer()
             const database = new SQL.Database(new Uint8Array(db)) as Database
+
             try {
                 const schema = database.exec(schemaQuery)
-                setSchema(schema[0].values[0])
+                setSchema(schema[0].values[0]?.[0])
 
-                const result = database.exec(query)
-                setResult(result)
+                if (query) {
+                    const result = database.exec(query)
+                    setResult(result)
+                }
                 setLoading(false)
                 setError('')
             } catch (e: any) {
-                console.log(e)
                 setResult(null)
                 setLoading(false)
                 setError(e.toString())
