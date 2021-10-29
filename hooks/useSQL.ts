@@ -17,7 +17,7 @@ export function useSQL({ query: queryArg, databasePath }: UseSQLArgs) {
     const [result, setResult] = useState<QueryExecResult[] | null>(null)
 
     const schemaQuery = 'SELECT sql as Schema FROM sqlite_master'
-    const [schema, setSchema] = useState<string | null>(null)
+    const [schema, setSchema] = useState<SqlValue | null>(null)
 
     useEffect(() => {
         const load = async () => {
