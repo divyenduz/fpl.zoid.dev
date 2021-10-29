@@ -19,22 +19,12 @@ import {
   getDefaultQuery,
   getRowDataFromResultSet,
 } from '../lib/sql'
-
-function encodeHash(state: Record<any, any>) {
-  return Buffer.from(JSON.stringify(state)).toString('base64')
-}
-
-function decodeHash(hash: string) {
-  return JSON.parse(Buffer.from(hash, 'base64').toString())
-}
+import { decodeHash, encodeHash } from '../lib/base64'
+import { ActionButtons } from '../components/ActionButtons'
 
 const Home: NextPage<{
   slug: string
 }> = ({ slug }) => {
-  const router = useRouter()
-  const [, setToast] = useToasts()
-  const { copy } = useClipboard()
-
   let defaultState = {
     text: 'Write a quick description of your strategy!',
     defaultQuery: getDefaultQuery(),
@@ -92,10 +82,18 @@ const Home: NextPage<{
           </Note>
         )}
 
+        <ActionButtons
+          queryDraft={queryDraft}
+          setQueryDraft={setQueryDraft}
+          setQuery={setQuery}
+          text={text}
+          slugLength={slugLength}
+        ></ActionButtons>
+
         <Card className="flex-column space-x-2">
           <Textarea
             type="success"
-            height="200px"
+            height="150px"
             width="100%"
             value={text}
             onChange={(e) => setText(e.target.value)}
@@ -107,55 +105,21 @@ const Home: NextPage<{
             lang="sql"
             dialect="postgresql"
             theme="dark"
-            style={{ width: '100%', height: '50vh', marginBottom: 10 }}
+            style={{ width: '100%', height: '450px', marginBottom: 10 }}
             value={queryDraft}
             onChange={(code: string) => {
               setQueryDraft(code)
             }}
           ></Editor>
-
-          <div className="space-x-1">
-            <Button
-              shadow
-              type="secondary"
-              onClick={() => {
-                setQueryDraft(formatQuery(queryDraft))
-              }}
-            >
-              Format SQL
-            </Button>
-
-            <Button
-              shadow
-              type="secondary"
-              onClick={() => {
-                setQuery(queryDraft)
-              }}
-            >
-              Execute
-            </Button>
-
-            <Button
-              shadow
-              type="secondary"
-              onClick={() => {
-                const urlStateHash = encodeHash({ text, queryDraft })
-
-                const protocol = window.location.hostname.startsWith('local')
-                  ? 'http://'
-                  : 'https://'
-                copy(protocol + window.location.host + '/' + urlStateHash)
-                setToast({ text: 'URL copied to clipboard!' })
-
-                router.replace(urlStateHash, undefined, {
-                  shallow: true,
-                })
-              }}
-            >
-              Save and copy URL ({slugLength} / 2048)
-            </Button>
-          </div>
         </Card>
+
+        <ActionButtons
+          queryDraft={queryDraft}
+          setQueryDraft={setQueryDraft}
+          setQuery={setQuery}
+          text={text}
+          slugLength={slugLength}
+        ></ActionButtons>
 
         {data && (
           <Card>
