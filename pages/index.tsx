@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { Card, Button, Table } from '@geist-ui/react'
-import { useEffect, useState } from 'react'
+import { Card, Button, Table, Note } from '@geist-ui/react'
+import { useState } from 'react'
 import { useSQL } from '../hooks/useSQL'
 
 import Editor from '../components/Editor'
@@ -44,23 +44,13 @@ LIMIT 20`
     databasePath: '/static/fpl.db',
   })
 
-  console.log({ error })
-
-  useEffect(() => {
-    const urlStateHash = Buffer.from(query).toString('base64')
-    router.replace(urlStateHash, undefined, {
-      shallow: true,
-    })
-  }, [query])
-
-  //@ts-expect-error
   const columns = result?.[0]?.columns
   //@ts-expect-error
   const data = result?.[0]?.values.map((row: string[]) => {
     return row.reduce((acc, column: string, index) => {
       return {
         ...acc,
-        [`${columns[index]}`]: column,
+        [`${columns?.[index]}`]: column,
       }
     }, {})
   })
@@ -68,7 +58,7 @@ LIMIT 20`
   const TableResultSet = ({ data }: { data: any }) => {
     return (
       <Table data={data}>
-        {columns.map((c: string, index: number) => {
+        {columns?.map((c: string, index: number) => {
           return (
             <Table.Column
               key={c.concat(index.toString())}
@@ -95,7 +85,13 @@ LIMIT 20`
       <main>
         <h1>Welcome to fpl.cool</h1>
 
-        {schema}
+        <Note label="Schema">{schema}</Note>
+
+        {Boolean(error) && (
+          <Note type="error" label="Error">
+            {error}
+          </Note>
+        )}
 
         <Card>
           <Editor
@@ -109,35 +105,50 @@ LIMIT 20`
             }}
           ></Editor>
 
-          <Button
-            shadow
-            type="secondary"
-            onClick={() => {
-              try {
-                setQueryDraft(
-                  format(queryDraft, {
-                    language: 'postgresql',
-                    uppercase: true,
-                  })
-                )
-              } catch (e) {
-                console.error(`Failed to format SQL`)
-                console.error(e)
-              }
-            }}
-          >
-            Format SQL
-          </Button>
+          <div className="space-x-1">
+            <Button
+              shadow
+              type="secondary"
+              onClick={() => {
+                try {
+                  setQueryDraft(
+                    format(queryDraft, {
+                      language: 'postgresql',
+                      uppercase: true,
+                    })
+                  )
+                } catch (e) {
+                  console.error(`Failed to format SQL`)
+                  console.error(e)
+                }
+              }}
+            >
+              Format SQL
+            </Button>
 
-          <Button
-            shadow
-            type="secondary"
-            onClick={() => {
-              setQuery(queryDraft)
-            }}
-          >
-            Execute
-          </Button>
+            <Button
+              shadow
+              type="secondary"
+              onClick={() => {
+                setQuery(queryDraft)
+              }}
+            >
+              Execute
+            </Button>
+
+            <Button
+              shadow
+              type="secondary"
+              onClick={() => {
+                const urlStateHash = Buffer.from(query).toString('base64')
+                router.replace(urlStateHash, undefined, {
+                  shallow: true,
+                })
+              }}
+            >
+              Save
+            </Button>
+          </div>
         </Card>
 
         {data && (

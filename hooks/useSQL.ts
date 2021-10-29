@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react"
 
+import type {
+    Database, QueryExecResult, SqlValue
+} from 'sql.js'
+
 interface UseSQLArgs {
     query: string
     databasePath: string
@@ -10,13 +14,15 @@ export function useSQL({ query: queryArg, databasePath }: UseSQLArgs) {
     const [error, setError] = useState('')
 
     const [query, setQuery] = useState(queryArg)
-    const [result, setResult] = useState(null)
+    const [result, setResult] = useState<QueryExecResult[] | null>(null)
 
     const schemaQuery = 'SELECT sql as Schema FROM sqlite_master'
-    const [schema, setSchema] = useState(null)
+    const [schema, setSchema] = useState<SqlValue[] | null>(null)
 
     useEffect(() => {
         const load = async () => {
+            setLoading(true)
+
             //@ts-ignore
             const initSqlJs = window.initSqlJs
             const SQL = await initSqlJs({
@@ -25,7 +31,7 @@ export function useSQL({ query: queryArg, databasePath }: UseSQLArgs) {
 
             const r = await fetch(databasePath)
             const db = await r.arrayBuffer()
-            const database = new SQL.Database(new Uint8Array(db))
+            const database = new SQL.Database(new Uint8Array(db)) as Database
             try {
                 const schema = database.exec(schemaQuery)
                 setSchema(schema[0].values[0])
@@ -33,8 +39,11 @@ export function useSQL({ query: queryArg, databasePath }: UseSQLArgs) {
                 const result = database.exec(query)
                 setResult(result)
                 setLoading(false)
+                setError('')
             } catch (e: any) {
                 console.log(e)
+                setResult(null)
+                setLoading(false)
                 setError(e.toString())
             }
         }
