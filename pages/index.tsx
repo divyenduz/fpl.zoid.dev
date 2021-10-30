@@ -1,19 +1,14 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import {
-  Card,
-  Button,
-  Note,
-  Textarea,
-  useToasts,
-  useClipboard,
-} from '@geist-ui/react'
+import { Button, Card, Note, Textarea } from '@geist-ui/react'
 import { useEffect, useState } from 'react'
 import { useSQL } from '../hooks/useSQL'
 
 import Editor from '../components/Editor'
 import { ResultSet } from '../components/ResultSet'
-import { useRouter } from 'next/router'
+
+import Link from 'next/link'
+
 import {
   formatQuery,
   getDefaultQuery,
@@ -72,7 +67,19 @@ const Home: NextPage<{
       </Head>
 
       <main className="p-4">
-        <h1>Welcome to FPL.cool</h1>
+        <div className="m-4">
+          <Link href="/" passHref>
+            <Button type="secondary">FPL.cool Home</Button>
+          </Link>
+        </div>
+
+        <Note label="Data Source Credits">
+          <Link href="https://github.com/vaastav/Fantasy-Premier-League">
+            <a target="_blank">
+              https://github.com/vaastav/Fantasy-Premier-League
+            </a>
+          </Link>
+        </Note>
 
         <Note label="Schema">{formatQuery(schema || '')}</Note>
 
