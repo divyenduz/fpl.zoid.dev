@@ -1,20 +1,17 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { Button, Card, Note, Textarea } from '@geist-ui/react'
+import { Card, Note, Textarea } from '@geist-ui/react'
 import { useEffect, useState } from 'react'
 import { useSQL } from '../hooks/useSQL'
 
 import Editor from '../components/Editor'
 import { ResultSet } from '../components/ResultSet'
 import { SchemaTree } from '../components/SchemaTree'
+import { Menu } from '../components/Menu'
 
 import Link from 'next/link'
 
-import {
-  formatQuery,
-  getDefaultQuery,
-  getRowDataFromResultSet,
-} from '../lib/sql'
+import { getDefaultQuery, getRowDataFromResultSet } from '../lib/sql'
 import { decodeHash, encodeHash } from '../lib/base64'
 import { ActionButtons } from '../components/ActionButtons'
 
@@ -71,11 +68,7 @@ const Home: NextPage<{
       </Head>
 
       <main className="p-4">
-        <div className="m-4">
-          <Link href="/" passHref>
-            <Button type="secondary">FPL.cool Home</Button>
-          </Link>
-        </div>
+        <Menu />
 
         <Note label="Data Source Credits">
           <Link href="https://github.com/vaastav/Fantasy-Premier-League">

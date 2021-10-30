@@ -1,4 +1,4 @@
-import { Button, useClipboard, useToasts } from '@geist-ui/react'
+import { Button, Snippet, useClipboard } from '@geist-ui/react'
 import { useRouter } from 'next/router'
 import { encodeHash } from '../lib/base64'
 import { formatQuery } from '../lib/sql'
@@ -11,6 +11,24 @@ interface ActionButtonsArgs {
   slugLength: number
 }
 
+function getUrl({ text, queryDraft }: any) {
+  const urlStateHash = encodeHash({ text, queryDraft })
+  const protocol = window.location.hostname.startsWith('local')
+    ? 'http://'
+    : 'https://'
+  return protocol + window.location.host + '/' + urlStateHash
+}
+
+function saveAndCopyHandler({ text, queryDraft, copy, setToast, router }: any) {
+  const urlStateHash = encodeHash({ text, queryDraft })
+
+  copy(getUrl({ text, queryDraft }))
+
+  router.replace(urlStateHash, undefined, {
+    shallow: true,
+  })
+}
+
 export const ActionButtons = ({
   queryDraft,
   setQueryDraft,
@@ -19,7 +37,6 @@ export const ActionButtons = ({
   slugLength,
 }: ActionButtonsArgs) => {
   const router = useRouter()
-  const [, setToast] = useToasts()
   const { copy } = useClipboard()
 
   return (
@@ -45,25 +62,17 @@ export const ActionButtons = ({
         Format SQL
       </Button>
 
-      <Button
-        ghost
-        type="secondary"
+      <div className="m-2"></div>
+
+      <Snippet
+        className={'m-4'}
+        text={`Save and copy URL (${slugLength} / 2048)`}
+        width="300px"
         onClick={() => {
-          const urlStateHash = encodeHash({ text, queryDraft })
-
-          const protocol = window.location.hostname.startsWith('local')
-            ? 'http://'
-            : 'https://'
-          copy(protocol + window.location.host + '/' + urlStateHash)
-          setToast({ text: 'URL copied to clipboard!' })
-
-          router.replace(urlStateHash, undefined, {
-            shallow: true,
-          })
+          saveAndCopyHandler({ text, queryDraft, copy, router })
         }}
-      >
-        Save and copy URL ({slugLength} / 2048)
-      </Button>
+      />
+
       <div className="m-2"></div>
     </div>
   )
