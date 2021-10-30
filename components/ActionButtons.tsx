@@ -26,17 +26,7 @@ export const ActionButtons = ({
     <div className="space-x-1">
       <div className="m-2"></div>
       <Button
-        shadow
-        type="secondary"
-        onClick={() => {
-          setQueryDraft(formatQuery(queryDraft))
-        }}
-      >
-        Format SQL
-      </Button>
-
-      <Button
-        shadow
+        ghost
         type="secondary"
         onClick={() => {
           setQuery(queryDraft)
@@ -46,7 +36,17 @@ export const ActionButtons = ({
       </Button>
 
       <Button
-        shadow
+        ghost
+        type="secondary"
+        onClick={() => {
+          setQueryDraft(formatQuery(queryDraft))
+        }}
+      >
+        Format SQL
+      </Button>
+
+      <Button
+        ghost
         type="secondary"
         onClick={() => {
           const urlStateHash = encodeHash({ text, queryDraft })

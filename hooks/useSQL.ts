@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import type {
     Database, QueryExecResult, SqlValue
 } from 'sql.js'
+import { getAllColumns } from "../lib/sql"
 
 interface UseSQLArgs {
     query: string
@@ -18,6 +19,9 @@ export function useSQL({ query: queryArg, databasePath }: UseSQLArgs) {
 
     const schemaQuery = 'SELECT sql as Schema FROM sqlite_master'
     const [schema, setSchema] = useState<string | null>(null)
+
+    const structureQuery = getAllColumns()
+    const [structure, setStructure] = useState<QueryExecResult[] | null>(null)
 
     useEffect(() => {
         const load = async () => {
@@ -37,6 +41,9 @@ export function useSQL({ query: queryArg, databasePath }: UseSQLArgs) {
                 const schema = database.exec(schemaQuery)
                 setSchema(schema[0].values[0]?.[0]?.toString() || '')
 
+                const structure = database.exec(structureQuery)
+                setStructure(structure)
+
                 if (query) {
                     const result = database.exec(query)
                     setResult(result)
@@ -53,6 +60,7 @@ export function useSQL({ query: queryArg, databasePath }: UseSQLArgs) {
     }, [query, databasePath])
     return {
         schema,
+        structure,
         result,
         loading,
         error,

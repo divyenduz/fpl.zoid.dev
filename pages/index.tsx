@@ -6,6 +6,7 @@ import { useSQL } from '../hooks/useSQL'
 
 import Editor from '../components/Editor'
 import { ResultSet } from '../components/ResultSet'
+import { SchemaTree } from '../components/SchemaTree'
 
 import Link from 'next/link'
 
@@ -37,13 +38,16 @@ const Home: NextPage<{
   const [text, setText] = useState(defaultState.text)
   const [queryDraft, setQueryDraft] = useState(defaultState.defaultQuery)
 
-  const { setQuery, result, schema, error } = useSQL({
+  const { setQuery, result, schema, structure, error } = useSQL({
     query: queryDraft,
     databasePath: '/static/fpl.db',
   })
 
   const columns = result?.[0]?.columns || []
   const data = getRowDataFromResultSet(columns, result || [])
+
+  const structureColumns = structure?.[0]?.columns || []
+  let structureData = getRowDataFromResultSet(structureColumns, structure || [])
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -81,7 +85,9 @@ const Home: NextPage<{
           </Link>
         </Note>
 
-        <Note label="Schema">{formatQuery(schema || '')}</Note>
+        <Note label="Database Schema">
+          <SchemaTree data={structureData} />
+        </Note>
 
         {Boolean(error) && (
           <Note type="error" label="Error">

@@ -14,7 +14,7 @@ export function formatQuery(query: string) {
 	}
 }
 
-export function getRowDataFromResultSet(columns: string[], result: QueryExecResult[]) {
+export function getRowDataFromResultSet(columns: string[], result: QueryExecResult[]): { tableName: string; columnName: string }[] {
 	const data = result?.[0]?.values.map((row: SqlValue[]) => {
 		return row.reduce((acc, column: SqlValue, index) => {
 			return {
@@ -23,7 +23,7 @@ export function getRowDataFromResultSet(columns: string[], result: QueryExecResu
 			}
 		}, {})
 	})
-	return data
+	return data as { tableName: string; columnName: string }[]
 }
 
 export function getDefaultQuery() {
