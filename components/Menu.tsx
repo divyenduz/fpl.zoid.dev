@@ -5,7 +5,7 @@ import { Twitter } from '@geist-ui/react-icons'
 
 export const Menu = () => {
   return (
-    <div className="flex flex-row flex-wrap m-4 gap-x-1 sm:gap-x-2 gap-y-1 sm:gap-y-0">
+    <div className="flex flex-row flex-wrap m-4 gap-x-1 sm:gap-x-2 gap-y-2">
       <Link href="/" passHref>
         <Button type="secondary">FPL.cool Home</Button>
       </Link>
