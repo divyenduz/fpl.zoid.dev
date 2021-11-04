@@ -28,10 +28,8 @@ export function getRowDataFromResultSet(columns: string[], result: QueryExecResu
 
 export function getDefaultQuery() {
 	return `SELECT
-	first_name,
-	second_name,
+	printf('%s %s (%s)', first_name, second_name, element_type) AS name,
 	total_points,
-	element_type AS position,
 	minutes,
 	now_cost AS price,
 	influence,
