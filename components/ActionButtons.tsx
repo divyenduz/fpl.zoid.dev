@@ -40,8 +40,7 @@ export const ActionButtons = ({
   const { copy } = useClipboard()
 
   return (
-    <div className="space-x-1">
-      <div className="m-2"></div>
+    <div className="flex flex-row flex-wrap m-4 gap-x-1 sm:gap-x-2 gap-y-2">
       <Button
         ghost
         type="secondary"
@@ -62,8 +61,6 @@ export const ActionButtons = ({
         Format SQL
       </Button>
 
-      <div className="m-2"></div>
-
       <Snippet
         className={'m-4'}
         text={`Save and copy URL (${slugLength} chars)`}
@@ -72,8 +69,6 @@ export const ActionButtons = ({
           saveAndCopyHandler({ text, queryDraft, copy, router })
         }}
       />
-
-      <div className="m-2"></div>
     </div>
   )
 }
