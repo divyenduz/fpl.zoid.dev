@@ -66,7 +66,7 @@ export const ActionButtons = ({
 
       <Snippet
         className={'m-4'}
-        text={`Save and copy URL (${slugLength} / 2048)`}
+        text={`Save and copy URL (${slugLength} chars)`}
         width="300px"
         onClick={() => {
           saveAndCopyHandler({ text, queryDraft, copy, router })

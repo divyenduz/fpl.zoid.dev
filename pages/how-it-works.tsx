@@ -48,9 +48,7 @@ const Home: NextPage = () => {
                 <li>
                   When you click save, the query and description is stored as
                   base64 in the URL. There is no backend and hence no analytics,
-                  your strategy is private until you decide to share it. The
-                  limit is that the URL size must be 2048 characters, so there
-                  is a limit to what you can write :)
+                  your strategy is private until you decide to share it.
                 </li>
                 <li>
                   Share the URL with your friends to discuss your FPL
