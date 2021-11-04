@@ -7,17 +7,21 @@ export const ResultSet = ({
   columns: string[]
   data: Record<string, string>[]
 }) => {
-  return (
-    <Table data={data}>
-      {columns?.map((c: string, index: number) => {
-        return (
-          <Table.Column
-            key={c.concat(index.toString())}
-            prop={c}
-            label={c}
-          ></Table.Column>
-        )
-      })}
-    </Table>
-  )
+  const NewTable = () => {
+    return (
+      <Table data={data}>
+        {columns?.map((c: string, index: number) => {
+          return (
+            <Table.Column
+              key={c.concat(index.toString())}
+              prop={c}
+              label={c}
+            ></Table.Column>
+          )
+        })}
+      </Table>
+    )
+  }
+
+  return <NewTable />
 }

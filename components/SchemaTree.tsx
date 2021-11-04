@@ -12,7 +12,6 @@ export const SchemaTree = ({ data }: { data: Record<string, string>[] }) => {
         structureDataTree[d.tableName] || []
       ).concat(d.columnName)
     })
-    console.log(structureDataTree)
   }
 
   return (
