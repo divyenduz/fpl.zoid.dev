@@ -1,9 +1,11 @@
+import base64 from 'base-64'
+
 export function encodeHash(state: Record<any, any>) {
-	return Buffer.from(JSON.stringify(state)).toString('base64')
+	return base64.encode(JSON.stringify(state))
 }
 
 export function decodeHash(hash: string) {
-	const jsonStr = Buffer.from(hash, 'base64').toString('utf-8')
+	const jsonStr = base64.decode(hash)
 	try {
 		return {
 			...JSON.parse(jsonStr),
