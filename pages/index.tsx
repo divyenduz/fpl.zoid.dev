@@ -67,16 +67,23 @@ const Home: NextPage<{
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="p-4">
+      <main className="p-4 space-y-2">
         <Menu />
 
-        <Note label="Data Source Credits">
-          <Link href="https://github.com/vaastav/Fantasy-Premier-League">
-            <a target="_blank">
-              https://github.com/vaastav/Fantasy-Premier-League
-            </a>
-          </Link>
-        </Note>
+        <div className="flex flex-row space-x-2">
+          <div className="">
+            <Note label="Data Source Credits">
+              <Link href="https://github.com/vaastav/Fantasy-Premier-League">
+                <a target="_blank">
+                  https://github.com/vaastav/Fantasy-Premier-League
+                </a>
+              </Link>
+            </Note>
+          </div>
+          <div className="">
+            <Note label="Last Updated">GW10</Note>
+          </div>
+        </div>
 
         <Note label="Database Schema">
           <SchemaTree data={structureData} />
