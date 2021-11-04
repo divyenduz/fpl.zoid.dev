@@ -70,7 +70,7 @@ const Home: NextPage<{
       <main className="p-4 space-y-2">
         <Menu />
 
-        <div className="flex flex-row space-x-2">
+        <div className="flex flex-row flex-wrap gap-x-2">
           <div className="">
             <Note label="Data Source Credits">
               <Link href="https://github.com/vaastav/Fantasy-Premier-League">
