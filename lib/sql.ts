@@ -38,7 +38,7 @@ export function getDefaultQuery() {
 FROM
 	players
 WHERE
-	position = 'GK'
+	element_type = 'GK'
 ORDER BY
 	CAST(total_points AS INTEGER)
 	DESC,
