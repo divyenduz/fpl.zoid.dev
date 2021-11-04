@@ -24,9 +24,11 @@ const Home: NextPage<{
   }
   if (slug) {
     const decodedState = decodeHash(slug)
-    defaultState = {
-      text: decodedState.text,
-      defaultQuery: decodedState.queryDraft,
+    if (decodedState.status === 'OK') {
+      defaultState = {
+        text: decodedState.text,
+        defaultQuery: decodedState.queryDraft,
+      }
     }
   }
 

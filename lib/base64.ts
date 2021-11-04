@@ -3,5 +3,18 @@ export function encodeHash(state: Record<any, any>) {
 }
 
 export function decodeHash(hash: string) {
-	return JSON.parse(Buffer.from(hash, 'base64').toString())
+	const jsonStr = Buffer.from(hash, 'base64').toString()
+	try {
+		return {
+			...JSON.parse(jsonStr),
+			status: 'OK',
+		}
+	} catch (e) {
+		console.log(jsonStr)
+		return {
+			text: '',
+			queryDraft: '',
+			status: 'PARSE_FAIL',
+		}
+	}
 }
