@@ -3,7 +3,7 @@ export function encodeHash(state: Record<any, any>) {
 }
 
 export function decodeHash(hash: string) {
-	const jsonStr = Buffer.from(hash, 'base64').toString()
+	const jsonStr = Buffer.from(hash, 'base64').toString('utf-8')
 	try {
 		return {
 			...JSON.parse(jsonStr),
