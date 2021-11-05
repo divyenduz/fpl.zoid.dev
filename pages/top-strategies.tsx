@@ -30,19 +30,19 @@ const Home: NextPage = () => {
 
         <ol>
           <li>
-            Top 15 by points sorted by ROI + ROM
+            Top 15 by points sorted by ROI + ROM{' '}
             <Link href="https://bit.ly/3bGPqJH">
               <a target="_blank">https://bit.ly/3bGPqJH</a>
             </Link>
           </li>
           <li>
-            Top 15 by points sorted by ROI
+            Top 15 by points sorted by ROI{' '}
             <Link href="https://bit.ly/3bKUTiy">
               <a target="_blank">https://bit.ly/3bKUTiy</a>
             </Link>
           </li>
           <li>
-            Top 15 by points sorted by ROM
+            Top 15 by points sorted by ROM{' '}
             <Link href="https://bit.ly/3mNyHuD">
               <a target="_blank">https://bit.ly/3mNyHuD</a>
             </Link>
