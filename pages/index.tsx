@@ -83,7 +83,7 @@ const Home: NextPage<{
             </Note>
           </div>
           <div className="">
-            <Note label="Last Updated">GW10</Note>
+            <Note label="Last Updated">GW11</Note>
           </div>
         </div>
 
