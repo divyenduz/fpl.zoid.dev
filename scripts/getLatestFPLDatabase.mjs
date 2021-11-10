@@ -1,13 +1,20 @@
 #!/usr/bin/env ./node_modulex/bin/zx
 import 'zx/globals'
 
-// await $`ssh-keyscan github.com >> ~/.ssh/known_hosts`
-await $`rm -rf fpl.db`
+import task from 'tasuku'
 
-// await $`rm -rf Fantasy-Premier-League`
-// await $`git clone https://github.com/vaastav/Fantasy-Premier-League.git`
+await task('setup git', async () => {
+    await $`ssh-keyscan github.com >> ~/.ssh/known_hosts`
+})
 
-await $`sqlite3 fpl.db << EOF
+await task('git clone - vaastav/Fantasy-Premier-League', async () => {
+    await $`rm -rf fpl.db`
+    await $`rm -rf Fantasy-Premier-League`
+    await $`git clone https://github.com/vaastav/Fantasy-Premier-League.git`
+})
+
+await task('sqlite - import csv data', async () => {
+    await $`sqlite3 fpl.db << EOF
 .mode csv
 CREATE TABLE players(
   "first_name" TEXT,
@@ -33,5 +40,8 @@ CREATE TABLE players(
 .import Fantasy-Premier-League/data/2021-22/cleaned_players.csv players
 delete from players where total_points='total_points';
 EOF`
+})
 
-await $`mv fpl.db public/static/fpl.db`
+await task('sqlite - move new data to static files', async () => {
+    await $`mv fpl.db public/static/fpl.db`
+})
