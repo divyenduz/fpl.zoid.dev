@@ -33,6 +33,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Install Dependencies
+        run: echo "Installing dependencies" && yarn install && echo "Done installing dependencies"
+
       - name: Update Database
         run: node scripts/getLatestFPLDatabase.mjs
 
