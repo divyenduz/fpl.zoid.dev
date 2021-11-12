@@ -1,4 +1,4 @@
-#!/usr/bin/env ./node_modulex/bin/zx
+#!/usr/bin/env ./node_modules/.bin/zx
 import 'zx/globals'
 
 import task from 'tasuku'
@@ -9,8 +9,8 @@ await task('setup git', async () => {
 
 await task('git clone - vaastav/Fantasy-Premier-League', async () => {
   await $`rm -rf fpl.db`
-  // await $`rm -rf Fantasy-Premier-League`
-  // await $`git clone https://github.com/vaastav/Fantasy-Premier-League.git`
+  await $`rm -rf Fantasy-Premier-League`
+  await $`git clone https://github.com/vaastav/Fantasy-Premier-League.git`
 })
 
 await task('sqlite - import csv data', async () => {
