@@ -3,6 +3,13 @@ import 'zx/globals'
 
 import task from 'tasuku'
 
+import arg from 'arg'
+
+const args = arg({
+  '--clone': Boolean
+})
+const clone = args['--clone'] || false
+
 await task('setup git', async () => {
   await $`mkdir -p ~/.ssh`
   await $`touch ~/.ssh/known_hosts`
@@ -11,8 +18,10 @@ await task('setup git', async () => {
 
 await task('git clone - vaastav/Fantasy-Premier-League', async () => {
   await $`rm -rf fpl.db`
-  await $`rm -rf Fantasy-Premier-League`
-  await $`git clone https://github.com/vaastav/Fantasy-Premier-League.git`
+  if (clone) {
+    await $`rm -rf Fantasy-Premier-League`
+    await $`git clone https://github.com/vaastav/Fantasy-Premier-League.git`
+  }
 })
 
 await task('sqlite - import csv data', async () => {
@@ -45,17 +54,24 @@ EOF`
 })
 
 await task('sqlite - change lastUpdated and move db when it has changed', async () => {
+  // DROP meta, compare only players
+  await $`sqlite3 public/static/fpl.db << EOF
+DROP TABLE meta;
+EOF`
   const r = await $`sqldiff fpl.db public/static/fpl.db`
   if (r.stdout.trim() === '') {
     // No not changed
+    console.log('DB has not changed, revert the DROP meta change')
+    await $`git checkout public/static/fpl.db`
   } else {
     // DB Changed
+    console.log('DB has changed, adding timestamp and moving the file')
     await $`sqlite3 fpl.db << EOF
-CREATE TABLE meta(
-  lastUpdated TEXT
-);
-INSERT INTO meta (lastUpdated) VALUES (CURRENT_TIMESTAMP)
-EOF`
+    CREATE TABLE meta(
+      lastUpdated TEXT
+    );
+    INSERT INTO meta (lastUpdated) VALUES (CURRENT_TIMESTAMP)
+    EOF`
+    await $`mv fpl.db public/static/fpl.db`
   }
-  await $`mv fpl.db public/static/fpl.db`
 })
