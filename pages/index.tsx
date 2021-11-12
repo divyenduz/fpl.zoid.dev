@@ -37,8 +37,13 @@ const Home: NextPage<{
   const [text, setText] = useState(defaultState.text)
   const [queryDraft, setQueryDraft] = useState(defaultState.defaultQuery)
 
-  const { setQuery, result, schema, structure, error } = useSQL({
+  const { setQuery, result, structure, error } = useSQL({
     query: queryDraft,
+    databasePath: '/static/fpl.db',
+  })
+
+  const { result: resultLastUpdated } = useSQL({
+    query: `SELECT strftime('%d.%m.%Y %H:%M:%S (local time)', datetime(lastUpdated, 'localtime')) FROM meta;`,
     databasePath: '/static/fpl.db',
   })
 
@@ -83,7 +88,9 @@ const Home: NextPage<{
             </Note>
           </div>
           <div className="">
-            <Note label="Last Updated">GW11</Note>
+            <Note label="Last Updated">
+              {resultLastUpdated?.[0].values?.[0] || 'Loading'}
+            </Note>
           </div>
         </div>
 

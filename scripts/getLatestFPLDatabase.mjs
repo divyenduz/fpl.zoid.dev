@@ -4,17 +4,17 @@ import 'zx/globals'
 import task from 'tasuku'
 
 await task('setup git', async () => {
-    await $`ssh-keyscan github.com >> ~/.ssh/known_hosts`
+  await $`ssh-keyscan github.com >> ~/.ssh/known_hosts`
 })
 
 await task('git clone - vaastav/Fantasy-Premier-League', async () => {
-    await $`rm -rf fpl.db`
-    await $`rm -rf Fantasy-Premier-League`
-    await $`git clone https://github.com/vaastav/Fantasy-Premier-League.git`
+  await $`rm -rf fpl.db`
+  // await $`rm -rf Fantasy-Premier-League`
+  // await $`git clone https://github.com/vaastav/Fantasy-Premier-League.git`
 })
 
 await task('sqlite - import csv data', async () => {
-    await $`sqlite3 fpl.db << EOF
+  await $`sqlite3 fpl.db << EOF
 .mode csv
 CREATE TABLE players(
   "first_name" TEXT,
@@ -42,6 +42,18 @@ delete from players where total_points='total_points';
 EOF`
 })
 
-await task('sqlite - move new data to static files', async () => {
-    await $`mv fpl.db public/static/fpl.db`
+await task('sqlite - change lastUpdated and move db when it has changed', async () => {
+  const r = await $`sqldiff fpl.db public/static/fpl.db`
+  if (r.stdout.trim() === '') {
+    // No not changed
+  } else {
+    // DB Changed
+    await $`sqlite3 fpl.db << EOF
+CREATE TABLE meta(
+  lastUpdated TEXT
+);
+INSERT INTO meta (lastUpdated) VALUES (CURRENT_TIMESTAMP)
+EOF`
+  }
+  await $`mv fpl.db public/static/fpl.db`
 })

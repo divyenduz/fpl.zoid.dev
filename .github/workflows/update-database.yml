@@ -1,0 +1,49 @@
+name: Update Database
+# This workflow is triggered on pushes to the repository.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 5 * * *' # 5 AM everyday
+
+env:
+  NO_COLOR: true
+  CI: 1
+
+jobs:
+  restore:
+    name: Update Database
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    if: endsWith(github.ref, '/main')
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ github.token }}
+
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: 'yarn'
+
+      - name: Turnstyle
+        uses: softprops/turnstyle@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update Database
+        run: node scripts/getLatestFPLDatabase.mjs
+
+      - name: Push
+        uses: github-actions-x/commit@v2.8
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          # push-branch: 'master'
+          commit-message: '[skip ci] Update Database'
+          force-add: 'true'
+          files: public/static/fpl.db
+          name: Divyendu Singh (Bot)
+          email: divyendu.z@gmail.com
+          rebase: 'true'

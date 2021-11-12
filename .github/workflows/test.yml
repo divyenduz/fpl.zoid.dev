@@ -1,0 +1,23 @@
+name: Run Tests
+# This workflow is triggered on pushes to the repository.
+on:
+  push:
+  workflow_dispatch:
+
+env:
+  NO_COLOR: true
+  CI: 1
+
+jobs:
+  build:
+    name: Test
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: echo "Installing dependencies" && yarn install && echo "Done installing dependencies"
+
+      - name: Run Tests
+        run: yarn test
