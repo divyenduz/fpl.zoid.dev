@@ -4,6 +4,7 @@ import 'zx/globals'
 import task from 'tasuku'
 
 await task('setup git', async () => {
+  await $`touch ~/.ssh/known_hosts`
   await $`ssh-keyscan github.com >> ~/.ssh/known_hosts`
 })
 
