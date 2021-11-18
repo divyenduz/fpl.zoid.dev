@@ -3,7 +3,7 @@ name: Update Database
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 5 * * *' # 5 AM everyday
+    - cron: '0 * * * *' # hourly
 
 env:
   NO_COLOR: true
