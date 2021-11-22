@@ -64,14 +64,14 @@ EOF`
     console.log('DB has not changed, revert the DROP meta change')
     await $`git checkout public/static/fpl.db`
   } else {
-    // DB Changed
-    console.log('DB has changed, adding timestamp and moving the file')
-    await $`sqlite3 fpl.db << EOF
-    CREATE TABLE meta(
-      lastUpdated TEXT
-    );
-    INSERT INTO meta (lastUpdated) VALUES (CURRENT_TIMESTAMP)
-    EOF`
+  // DB Changed
+  console.log('DB has changed, adding timestamp and moving the file')
+  await $`sqlite3 fpl.db << EOF
+  CREATE TABLE meta(
+    lastUpdated TEXT
+  );
+  INSERT INTO meta (lastUpdated) VALUES (CURRENT_TIMESTAMP)
+EOF`
     await $`mv fpl.db public/static/fpl.db`
   }
 })
