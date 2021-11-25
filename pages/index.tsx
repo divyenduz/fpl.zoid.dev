@@ -15,6 +15,8 @@ import { getDefaultQuery, getRowDataFromResultSet } from '../lib/sql'
 import { decodeHash, encodeHash } from '../lib/base64'
 import { ActionButtons } from '../components/ActionButtons'
 
+import dynamic from 'next/dynamic'
+
 const Home: NextPage<{
   slug: string
 }> = ({ slug }) => {
@@ -160,4 +162,6 @@ Home.getInitialProps = ({ query }) => {
   }
 }
 
-export default Home
+export default dynamic(() => Promise.resolve(Home), {
+  ssr: false
+})
