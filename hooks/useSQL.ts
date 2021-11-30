@@ -29,6 +29,12 @@ export function useSQL({ query: queryArg, databasePath }: UseSQLArgs) {
 
             //@ts-ignore
             const initSqlJs = window.initSqlJs
+
+            if (!initSqlJs) {
+                console.log('sql.js has not loaded yet')
+                return
+            }
+
             const SQL = await initSqlJs({
                 locateFile: (file: string) => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.1/sql-wasm.wasm`,
             })
@@ -57,7 +63,7 @@ export function useSQL({ query: queryArg, databasePath }: UseSQLArgs) {
             }
         }
         load()
-    }, [query, databasePath])
+    }, [query, databasePath, structureQuery])
     return {
         schema,
         structure,
