@@ -1,3 +1,3 @@
 # Introduction FPL.cool
 
-SQL over FPL data from https://github.com/vaastav/Fantasy-Premier-League
+Build a FPL team by using SQL over FPL data from https://github.com/vaastav/Fantasy-Premier-League
