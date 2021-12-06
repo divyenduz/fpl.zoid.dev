@@ -8,6 +8,10 @@ function MyApp({ Component, pageProps }: AppProps) {
     <GeistProvider>
       <CssBaseline />
       <Component {...pageProps} />
+      <script
+        async
+        src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.1/sql-wasm.js"
+      ></script>
     </GeistProvider>
   )
 }
