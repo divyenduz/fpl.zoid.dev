@@ -30,7 +30,7 @@
     "autoprefixer": "10.4.2",
     "eslint": "8.6.0",
     "eslint-config-next": "12.0.7",
-    "postcss": "8.4.5",
+    "postcss": "8.4.6",
     "tailwindcss": "3.0.18",
     "tasuku": "1.0.2",
     "typescript": "4.5.4",
