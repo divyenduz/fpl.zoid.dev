@@ -1,4 +1,4 @@
-import type { NextPage } from 'next'
+import type { GetStaticPropsContext, NextPage } from 'next/types'
 import Head from 'next/head'
 import { Card, Note, Textarea } from '@geist-ui/react'
 import { useEffect, useState } from 'react'
@@ -18,6 +18,7 @@ import { ActionButtons } from '../components/ActionButtons'
 const Home: NextPage<{
   slug: string
 }> = ({ slug }) => {
+  console.log({ slug })
   let defaultState = {
     text: 'Write a quick description of your strategy!',
     defaultQuery: getDefaultQuery(),
@@ -112,7 +113,7 @@ const Home: NextPage<{
           slugLength={slugLength}
         ></ActionButtons>
 
-        <Card className="flex-column space-x-2">
+        <Card className="space-x-2 flex-column">
           <Textarea
             type="success"
             height="150px"
@@ -153,10 +154,13 @@ const Home: NextPage<{
   )
 }
 
-Home.getInitialProps = ({ query }) => {
-  let slug = query.slug as string
+export async function getStaticProps(context: GetStaticPropsContext) {
+  const { slug } = context.params || { slug: '' }
   return {
-    slug,
+    props: {
+      slug,
+    },
+    revalidate: 10,
   }
 }
 
