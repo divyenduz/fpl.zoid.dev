@@ -10,7 +10,7 @@
     "test": "tsc --noEmit"
   },
   "dependencies": {
-    "@geist-ui/react": "2.2.0",
+    "@geist-ui/react": "2.2.5",
     "@geist-ui/react-icons": "1.0.1",
     "@prisma/text-editors": "0.0.16",
     "base-64": "1.0.0",
