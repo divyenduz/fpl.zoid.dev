@@ -253,10 +253,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@prisma/text-editors@0.0.16":
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/@prisma/text-editors/-/text-editors-0.0.16.tgz#3e0a8e3bf1c9287e17baf10fbffe7b8ed05f33ad"
-  integrity sha512-t/YYRme05Q2t4jox7uZJjxSTs2wm6C0965yH620T/SSLrCrI1GJkqtJ7di2h2xfR85/btwNmI2hKlBQKK/DLWA==
+"@prisma/text-editors@0.0.19":
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/@prisma/text-editors/-/text-editors-0.0.19.tgz#c6ddfdbe844c830b786fc166c51492fa32eb3aa0"
+  integrity sha512-WJ6CBoz+Q7usnEe9NiZnh8d3+cBrJ7kz4k4DtkdvFVeeaX4jfwJ7qFN1F9VJBYS5GOuWg4aqr8P3V+IsJb8H/w==
 
 "@rushstack/eslint-patch@^1.0.8":
   version "1.1.0"
