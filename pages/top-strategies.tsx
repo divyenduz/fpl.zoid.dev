@@ -4,6 +4,7 @@ import Head from 'next/head'
 import { Menu } from '../components/Menu'
 
 import Link from 'next/link'
+import { getPageData } from './[slug]'
 
 const Home: NextPage = () => {
   return (
@@ -27,24 +28,13 @@ const Home: NextPage = () => {
         </Link>
 
         <ol>
-          <li>
-            Top 15 by points sorted by ROI + ROM{' '}
-            <Link href="https://bit.ly/3bGPqJH">
-              <a target="_blank">https://bit.ly/3bGPqJH</a>
-            </Link>
-          </li>
-          <li>
-            Top 15 by points sorted by ROI{' '}
-            <Link href="https://bit.ly/3bKUTiy">
-              <a target="_blank">https://bit.ly/3bKUTiy</a>
-            </Link>
-          </li>
-          <li>
-            Top 15 by points sorted by ROM{' '}
-            <Link href="https://bit.ly/3mNyHuD">
-              <a target="_blank">https://bit.ly/3mNyHuD</a>
-            </Link>
-          </li>
+          {getPageData().map((p) => (
+            <li>
+              <Link as={`/${p.slug}`} href="/[slug]">
+                <a>{p.text}</a>
+              </Link>
+            </li>
+          ))}
         </ol>
       </main>
     </div>
