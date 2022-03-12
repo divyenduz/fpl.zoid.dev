@@ -14,29 +14,37 @@ import Link from 'next/link'
 import { getDefaultQuery, getRowDataFromResultSet } from '../lib/sql'
 import { decodeHash, encodeHash } from '../lib/base64'
 import { ActionButtons } from '../components/ActionButtons'
+import { match } from 'ts-pattern'
 
 const Home: NextPage<{
   slug: string
 }> = ({ slug }) => {
   console.log({ slug })
-  let defaultState = {
+  const defaultState = {
     text: 'Write a quick description of your strategy!',
     defaultQuery: getDefaultQuery(),
   }
-  if (slug) {
-    const decodedState = decodeHash(slug)
-    if (decodedState.status === 'OK') {
-      defaultState = {
-        text: decodedState.text,
-        defaultQuery: decodedState.queryDraft,
-      }
-    }
-  }
-
-  const [slugLength, setSlugLength] = useState(slug?.length || 0)
 
   const [text, setText] = useState(defaultState.text)
   const [queryDraft, setQueryDraft] = useState(defaultState.defaultQuery)
+  const [slugLength, setSlugLength] = useState(0)
+
+  useEffect(() => {
+    if (slug) {
+      setSlugLength(slug?.length || 0)
+
+      const decodedState = decodeHash(slug)
+      match(decodedState.status)
+        .with('OK', () => {
+          setText(decodedState.text)
+          setQueryDraft(decodedState.queryDraft)
+        })
+        .with('PARSE_FAIL', () => {
+          // Console logs in decode hash
+        })
+        .exhaustive()
+    }
+  }, [slug])
 
   const { setQuery, result, structure, error } = useSQL({
     query: queryDraft,
