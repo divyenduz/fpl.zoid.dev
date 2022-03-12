@@ -16,7 +16,7 @@ const Home: NextPage = () => {
           name="description"
           content="FPL.cool - analyse fantasy premier league data with SQL"
         />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.png" />
       </Head>
 
       <main className="p-4">

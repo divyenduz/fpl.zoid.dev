@@ -9,7 +9,7 @@ export const ResultSet = ({
 }) => {
   const NewTable = () => {
     return (
-      <Table data={data}>
+      <Table data={data} hover={false}>
         {columns?.map((c: string, index: number) => {
           return (
             <Table.Column

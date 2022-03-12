@@ -1,8 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 
-import { Description } from '@geist-ui/react'
-
 import { Menu } from '../components/Menu'
 
 import Link from 'next/link'
@@ -16,7 +14,7 @@ const Home: NextPage = () => {
           name="description"
           content="FPL.cool - analyse fantasy premier league data with SQL"
         />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.png" />
       </Head>
 
       <main className="p-4">
