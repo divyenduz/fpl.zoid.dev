@@ -75,7 +75,13 @@ const Home: NextPage<{
   return (
     <div>
       <Head>
-        <title>FPL.cool</title>
+        <title>
+          FPL.cool
+          {match(Boolean(text))
+            .with(true, () => ` - ${text}`)
+            .with(false, () => '')
+            .exhaustive()}
+        </title>
         <meta
           name="description"
           content="FPL.cool - analyse fantasy premier league data with SQL"
