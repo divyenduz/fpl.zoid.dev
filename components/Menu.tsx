@@ -1,7 +1,6 @@
-import Link from 'next/link'
 import { Button, Card, Note, Textarea } from '@geist-ui/react'
-
 import { Github, Twitter } from '@geist-ui/react-icons'
+import Link from 'next/link'
 
 export const Menu = () => {
   return (

@@ -1,5 +1,6 @@
 import { Button, Snippet, useClipboard } from '@geist-ui/react'
 import { useRouter } from 'next/router'
+
 import { encodeHash } from '../lib/base64'
 import { formatQuery } from '../lib/sql'
 

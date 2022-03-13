@@ -1,4 +1,5 @@
 import { GetStaticPropsContext } from 'next/types'
+
 import Home from '.'
 
 export async function getStaticProps(context: GetStaticPropsContext) {

@@ -1,11 +1,9 @@
+import { Description } from '@geist-ui/react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
-
-import { Description } from '@geist-ui/react'
+import Link from 'next/link'
 
 import { Menu } from '../components/Menu'
-
-import Link from 'next/link'
 
 const Home: NextPage = () => {
   return (

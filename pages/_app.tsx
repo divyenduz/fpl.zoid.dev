@@ -1,7 +1,6 @@
-import 'tailwindcss/tailwind.css'
+import { CssBaseline, GeistProvider, Themes } from '@geist-ui/react'
 import type { AppProps } from 'next/app'
-
-import { GeistProvider, CssBaseline, Themes } from '@geist-ui/react'
+import 'tailwindcss/tailwind.css'
 
 const customTheme = Themes.createFromLight({
   type: 'customTheme',

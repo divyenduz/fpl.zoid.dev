@@ -1,16 +1,13 @@
 {
-    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "extends": [
-        "config:base",
-        "github>whitesource/merge-confidence:beta"
-    ],
-    "automerge": true,
-    "automergeType": "branch",
-    "major": {
-        "automerge": false
-    },
-    "masterIssue": true,
-    "prConcurrentLimit": 25,
-    "rebaseWhen": "conflicted",
-    "ignoreDeps": []
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:base", "github>whitesource/merge-confidence:beta"],
+  "automerge": true,
+  "automergeType": "branch",
+  "major": {
+    "automerge": false
+  },
+  "masterIssue": true,
+  "prConcurrentLimit": 25,
+  "rebaseWhen": "conflicted",
+  "ignoreDeps": []
 }

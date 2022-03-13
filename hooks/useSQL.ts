@@ -1,76 +1,88 @@
-import { useState, useEffect } from "react"
+import { useEffect, useState } from 'react'
+import type { Database, QueryExecResult, SqlValue } from 'sql.js'
 
-import type {
-    Database, QueryExecResult, SqlValue
-} from 'sql.js'
-import { getAllColumns } from "../lib/sql"
+import { getAllColumns } from '../lib/sql'
 
 interface UseSQLArgs {
-    query: string
-    databasePath: string
+  query: string
+  databasePath: string
 }
 
 export function useSQL({ query: queryArg, databasePath }: UseSQLArgs) {
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState('')
+  const [retryCount, setRetryCount] = useState(0)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
 
-    const [query, setQuery] = useState(queryArg)
-    const [result, setResult] = useState<QueryExecResult[] | null>(null)
+  const [query, setQuery] = useState(queryArg)
+  const [result, setResult] = useState<QueryExecResult[] | null>(null)
 
-    const schemaQuery = 'SELECT sql as Schema FROM sqlite_master'
-    const [schema, setSchema] = useState<string | null>(null)
+  const schemaQuery = 'SELECT sql as Schema FROM sqlite_master'
+  const [schema, setSchema] = useState<string | null>(null)
 
-    const structureQuery = getAllColumns()
-    const [structure, setStructure] = useState<QueryExecResult[] | null>(null)
+  const structureQuery = getAllColumns()
+  const [structure, setStructure] = useState<QueryExecResult[] | null>(null)
 
-    useEffect(() => {
-        const load = async () => {
-            setLoading(true)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRetryCount(retryCount + 1)
+    }, 500)
 
-            //@ts-ignore
-            const initSqlJs = window.initSqlJs
-
-            if (!initSqlJs) {
-                console.log('sql.js has not loaded yet')
-                return
-            }
-
-            const SQL = await initSqlJs({
-                locateFile: (file: string) => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.1/sql-wasm.wasm`,
-            })
-
-            const r = await fetch(databasePath)
-            const db = await r.arrayBuffer()
-            const database = new SQL.Database(new Uint8Array(db)) as Database
-
-            try {
-                const schema = database.exec(schemaQuery)
-                setSchema(schema[0].values[0]?.[0]?.toString() || '')
-
-                const structure = database.exec(structureQuery)
-                setStructure(structure)
-
-                if (query) {
-                    const result = database.exec(query)
-                    setResult(result)
-                }
-                setLoading(false)
-                setError('')
-            } catch (e: any) {
-                setResult(null)
-                setLoading(false)
-                setError(e.toString())
-            }
-        }
-        load()
-    }, [query, databasePath, structureQuery])
-    return {
-        schema,
-        structure,
-        result,
-        loading,
-        error,
-        query,
-        setQuery
+    return () => {
+      clearInterval(interval)
     }
+  }, [])
+
+  useEffect(() => {
+    const load = async () => {
+      console.log({ retryCount })
+      setLoading(true)
+
+      //@ts-ignore
+      const initSqlJs = window.initSqlJs
+
+      if (!initSqlJs) {
+        console.log('sql.js has not loaded yet')
+        return
+      }
+
+      const SQL = await initSqlJs({
+        locateFile: (file: string) =>
+          `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.1/sql-wasm.wasm`,
+      })
+
+      const r = await fetch(databasePath)
+      const db = await r.arrayBuffer()
+      const database = new SQL.Database(new Uint8Array(db)) as Database
+
+      try {
+        const schema = database.exec(schemaQuery)
+        setSchema(schema[0].values[0]?.[0]?.toString() || '')
+
+        const structure = database.exec(structureQuery)
+        setStructure(structure)
+
+        if (query) {
+          const result = database.exec(query)
+          setResult(result)
+        }
+        setLoading(false)
+        setError('')
+      } catch (e: any) {
+        setResult(null)
+        setLoading(false)
+        setError(e.toString())
+      }
+    }
+    load()
+  }, [retryCount, query, databasePath, structureQuery])
+
+  return {
+    schema,
+    structure,
+    result,
+    loading,
+    error,
+    query,
+    setQuery,
+  }
 }

@@ -1,20 +1,18 @@
-import type { GetStaticPropsContext, NextPage } from 'next/types'
-import Head from 'next/head'
 import { Card, Note, Textarea } from '@geist-ui/react'
+import Head from 'next/head'
+import Link from 'next/link'
+import type { GetStaticPropsContext, NextPage } from 'next/types'
 import { useEffect, useState } from 'react'
-import { useSQL } from '../hooks/useSQL'
+import { match } from 'ts-pattern'
 
+import { ActionButtons } from '../components/ActionButtons'
 import Editor from '../components/Editor'
+import { Menu } from '../components/Menu'
 import { ResultSet } from '../components/ResultSet'
 import { SchemaTree } from '../components/SchemaTree'
-import { Menu } from '../components/Menu'
-
-import Link from 'next/link'
-
-import { getDefaultQuery, getRowDataFromResultSet } from '../lib/sql'
+import { useSQL } from '../hooks/useSQL'
 import { decodeHash, encodeHash } from '../lib/base64'
-import { ActionButtons } from '../components/ActionButtons'
-import { match } from 'ts-pattern'
+import { getDefaultQuery, getRowDataFromResultSet } from '../lib/sql'
 
 const Home: NextPage<{
   slug: string
