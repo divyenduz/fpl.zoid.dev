@@ -35,15 +35,17 @@ export function getPageData() {
 }
 
 export function getPageDataParams() {
-  const pageData = getPageData()
+  // const pageData = getPageData()
 
-  return pageData.map((p) => {
-    return {
-      params: {
-        slug: p.slug,
-      },
-    }
-  })
+  // return pageData.map((p) => {
+  //   return {
+  //     params: {
+  //       slug: p.slug,
+  //     },
+  //   }
+  // })
+  // Using long slugs causes https://github.com/vercel/next.js/discussions/32665
+  return []
 }
 
 export async function getStaticPaths() {

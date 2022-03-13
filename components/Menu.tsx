@@ -21,13 +21,13 @@ export const Menu = () => {
           </Button>
         </a>
       </Link>
-      <Link href="https://github.com/divyenduz/fpl.cool" passHref>
+      {/* <Link href="https://github.com/divyenduz/fpl.cool" passHref>
         <a className="block" target="_blank" style={{ color: 'inherit' }}>
           <Button icon={<Github />} type="secondary">
             Source Code
           </Button>
         </a>
-      </Link>
+      </Link> */}
     </div>
   )
 }
