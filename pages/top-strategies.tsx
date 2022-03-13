@@ -29,7 +29,7 @@ const Home: NextPage = () => {
 
         <ol>
           {getPageData().map((p) => (
-            <li>
+            <li key={p.identifier}>
               <Link as={`/${p.slug}`} href="/[slug]">
                 <a>{p.text}</a>
               </Link>
