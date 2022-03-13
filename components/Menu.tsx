@@ -1,5 +1,5 @@
 import { Button, Card, Note, Textarea } from '@geist-ui/react'
-import { Github, Twitter } from '@geist-ui/react-icons'
+import { Github, HeartFill, Twitter } from '@geist-ui/react-icons'
 import Link from 'next/link'
 
 export const Menu = () => {
@@ -21,13 +21,20 @@ export const Menu = () => {
           </Button>
         </a>
       </Link>
-      {/* <Link href="https://github.com/divyenduz/fpl.cool" passHref>
+      <Link href="https://github.com/divyenduz/fpl.cool" passHref>
         <a className="block" target="_blank" style={{ color: 'inherit' }}>
           <Button icon={<Github />} type="secondary">
             Source Code
           </Button>
         </a>
-      </Link> */}
+      </Link>
+      <Link href="https://trackfootball.app" passHref>
+        <a className="block" target="_blank" style={{ color: 'inherit' }}>
+          <Button icon={<HeartFill />} type="secondary">
+            TrackFootball.app
+          </Button>
+        </a>
+      </Link>
     </div>
   )
 }
