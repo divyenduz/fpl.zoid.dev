@@ -23,6 +23,25 @@ jobs:
 
       - uses: actions/checkout@v2
 
+      - name: Setup SQLite3
+        run: |
+          #!/usr/bin/env bash
+          set -euxo pipefail
+
+          cat <<__EOF | docker build -t sqlite:latest -
+          FROM ubuntu:20.04 as builder
+
+          WORKDIR /root
+
+          RUN apt-get update && apt-get install -y build-essential file libreadline-dev zlib1g-dev curl
+          RUN curl -sL https://www.sqlite.org/2021/sqlite-autoconf-3360000.tar.gz | tar xzv 
+          RUN cd sqlite-autoconf-3360000 && ./configure --enable-readline && make -j 
+          __EOF
+
+          docker cp $(docker create sqlite:latest):/root/sqlite-autoconf-3360000/sqlite3 ~/.local/bin/sqlite3
+          docker cp $(docker create sqlite:latest):/root/sqlite-autoconf-3360000/sqldiff ~/.local/bin/sqldiff
+          docker cp $(docker create sqlite:latest):/root/sqlite-autoconf-3360000/sqlite3_analyzer ~/.local/bin/sqlite3_analyzer
+
       - name: Setup yarn
         run: |
           mkdir -p ~/.local/bin
