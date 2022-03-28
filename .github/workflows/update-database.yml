@@ -33,7 +33,7 @@ jobs:
           make
           sudo make install
 
-      - name: Setup sqlite3
+      - name: Setup sqldiff
         run: |
           rm -rf sqlite-src-3380200
           curl -O https://www.sqlite.org/2022/sqlite-src-3380200.zip
