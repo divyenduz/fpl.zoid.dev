@@ -33,6 +33,15 @@ jobs:
           make
           sudo make install
 
+      - name: Setup sqlite3
+        run: |
+          rm -rf sqlite-src-3380200
+          curl -O https://www.sqlite.org/2022/sqlite-src-3380200.zip
+          unzip sqlite-src-3380200
+          cd sqlite-src-3380200/tool
+          gcc -o sqldiff sqldiff.c -lsqlite3
+          sudo cp sqldiff /usr/local/bin
+
       - name: Setup yarn
         run: |
           mkdir -p ~/.local/bin
