@@ -12,9 +12,16 @@ jobs:
   build:
     name: Test
     timeout-minutes: 15
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted]
     steps:
       - uses: actions/checkout@v2
+
+      - name: Setup yarn
+        run: |
+          mkdir -p ~/.local/bin
+          curl -fsSL \
+            https://github.com/yarnpkg/yarn/releases/download/v1.22.18/yarn-1.22.18.js > ~/.local/bin/yarn
+          chmod +x ~/.local/bin/yarn
 
       - name: Install Dependencies
         run: echo "Installing dependencies" && yarn install && echo "Done installing dependencies"
