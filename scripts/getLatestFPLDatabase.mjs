@@ -24,6 +24,10 @@ await task('git clone - vaastav/Fantasy-Premier-League', async () => {
   }
 })
 
+await task('log git clone - vaastav/Fantasy-Premier-League', async () => {
+  await $`head -n 5 Fantasy-Premier-League/data/2021-22/cleaned_players.csv`
+})
+
 await task('sqlite - import csv data', async () => {
   await $`sqlite3 fpl.db << EOF
 .mode csv
@@ -64,9 +68,9 @@ EOF`
     console.log('DB has not changed, revert the DROP meta change')
     await $`git checkout public/static/fpl.db`
   } else {
-  // DB Changed
-  console.log('DB has changed, adding timestamp and moving the file')
-  await $`sqlite3 fpl.db << EOF
+    // DB Changed
+    console.log('DB has changed, adding timestamp and moving the file')
+    await $`sqlite3 fpl.db << EOF
   CREATE TABLE meta(
     lastUpdated TEXT
   );
