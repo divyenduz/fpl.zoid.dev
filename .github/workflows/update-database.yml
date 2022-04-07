@@ -13,7 +13,7 @@ jobs:
   restore:
     name: Update Database
     timeout-minutes: 30
-    # runs-on: [self-hosted]
+#     runs-on: [self-hosted]
     runs-on: [ubuntu-20.04]
     if: endsWith(github.ref, '/main')
     steps:
@@ -24,31 +24,31 @@ jobs:
 
       - uses: actions/checkout@v2
 
-      - name: Setup sqlite3
-        run: |
-          rm -rf sqlite-autoconf-3380200
-          curl -O https://www.sqlite.org/2022/sqlite-autoconf-3380200.tar.gz
-          tar -xvf sqlite-autoconf-3380200.tar.gz
-          cd sqlite-autoconf-3380200
-          ./configure
-          make
-          sudo make install
+#       - name: Setup sqlite3
+#         run: |
+#           rm -rf sqlite-autoconf-3380200
+#           curl -O https://www.sqlite.org/2022/sqlite-autoconf-3380200.tar.gz
+#           tar -xvf sqlite-autoconf-3380200.tar.gz
+#           cd sqlite-autoconf-3380200
+#           ./configure
+#           make
+#           sudo make install
 
-      - name: Setup sqldiff
-        run: |
-          rm -rf sqlite-src-3380200
-          curl -O https://www.sqlite.org/2022/sqlite-src-3380200.zip
-          unzip sqlite-src-3380200
-          cd sqlite-src-3380200/tool
-          gcc -o sqldiff sqldiff.c -lsqlite3
-          sudo cp sqldiff /usr/local/bin
+#       - name: Setup sqldiff
+#         run: |
+#           rm -rf sqlite-src-3380200
+#           curl -O https://www.sqlite.org/2022/sqlite-src-3380200.zip
+#           unzip sqlite-src-3380200
+#           cd sqlite-src-3380200/tool
+#           gcc -o sqldiff sqldiff.c -lsqlite3
+#           sudo cp sqldiff /usr/local/bin
 
-      - name: Setup yarn
-        run: |
-          mkdir -p ~/.local/bin
-          curl -fsSL \
-            https://github.com/yarnpkg/yarn/releases/download/v1.22.18/yarn-1.22.18.js > ~/.local/bin/yarn
-          chmod +x ~/.local/bin/yarn
+#       - name: Setup yarn
+#         run: |
+#           mkdir -p ~/.local/bin
+#           curl -fsSL \
+#             https://github.com/yarnpkg/yarn/releases/download/v1.22.18/yarn-1.22.18.js > ~/.local/bin/yarn
+#           chmod +x ~/.local/bin/yarn
 
       - uses: actions/setup-node@v2
         with:
