@@ -13,7 +13,8 @@ jobs:
   restore:
     name: Update Database
     timeout-minutes: 30
-    runs-on: [self-hosted]
+    # runs-on: [self-hosted]
+    runs-on: [ubuntu-20.04]
     if: endsWith(github.ref, '/main')
     steps:
       - name: Cancel Previous Runs
