@@ -50,10 +50,10 @@ jobs:
 #             https://github.com/yarnpkg/yarn/releases/download/v1.22.18/yarn-1.22.18.js > ~/.local/bin/yarn
 #           chmod +x ~/.local/bin/yarn
 
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-          cache: 'yarn'
+#       - uses: actions/setup-node@v2
+#         with:
+#           node-version: '16'
+#           cache: 'yarn'
 
       - name: Turnstyle
         uses: softprops/turnstyle@v1
