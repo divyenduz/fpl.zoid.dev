@@ -2547,10 +2547,10 @@ tailwindcss@3.1.4:
     quick-lru "^5.1.1"
     resolve "^1.22.0"
 
-tasuku@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/tasuku/-/tasuku-1.0.2.tgz#0adfa1b55c4e3abeeac5ba4fd071199e2a187a3a"
-  integrity sha512-3rAYwGQbTITch8WvyKZV4PW/jG2VRLhDGT2fa2XBDYFFlQyJFKmU1wG/oX1Y40X5t0+BKRGGPN1jdUY755LvHg==
+tasuku@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/tasuku/-/tasuku-2.0.0.tgz#82c6c886161a3b2baced98f74bbe8e94e997cd3d"
+  integrity sha512-8y1ZtIBzMfTy0/XxRW9gfGts/CPrt7zSMQEfjWXbLdEz09EcXaAZEAFg8vNV8WAlLUQfoIfaaikRJ0YrBWkGlA==
   dependencies:
     yoga-layout-prebuilt "1.10.0"
 
