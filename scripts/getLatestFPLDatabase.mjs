@@ -25,7 +25,7 @@ await task('git clone - vaastav/Fantasy-Premier-League', async () => {
 })
 
 await task('log git clone - vaastav/Fantasy-Premier-League', async () => {
-  await $`head -n 5 Fantasy-Premier-League/data/2021-22/cleaned_players.csv`
+  await $`head -n 5 Fantasy-Premier-League/data/2022-23/cleaned_players.csv`
 })
 
 await task('sqlite - import csv data', async () => {
@@ -52,7 +52,7 @@ CREATE TABLE players(
   "now_cost" INTEGER,
   "element_type" TEXT
 );
-.import Fantasy-Premier-League/data/2021-22/cleaned_players.csv players
+.import Fantasy-Premier-League/data/2022-23/cleaned_players.csv players
 delete from players where total_points='total_points';
 EOF`
 })
