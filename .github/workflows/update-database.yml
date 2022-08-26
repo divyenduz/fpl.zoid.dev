@@ -13,46 +13,47 @@ jobs:
   restore:
     name: Update Database
     timeout-minutes: 30
-    runs-on: [self-hosted]
+#     runs-on: [self-hosted]
+    runs-on: [ubuntu-20.04]
     if: endsWith(github.ref, '/main')
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.9.1
+        uses: styfle/cancel-workflow-action@0.10.0
         with:
           access_token: ${{ github.token }}
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - name: Setup sqlite3
-        run: |
-          rm -rf sqlite-autoconf-3380200
-          curl -O https://www.sqlite.org/2022/sqlite-autoconf-3380200.tar.gz
-          tar -xvf sqlite-autoconf-3380200.tar.gz
-          cd sqlite-autoconf-3380200
-          ./configure
-          make
-          sudo make install
+#       - name: Setup sqlite3
+#         run: |
+#           rm -rf sqlite-autoconf-3380200
+#           curl -O https://www.sqlite.org/2022/sqlite-autoconf-3380200.tar.gz
+#           tar -xvf sqlite-autoconf-3380200.tar.gz
+#           cd sqlite-autoconf-3380200
+#           ./configure
+#           make
+#           sudo make install
 
-      - name: Setup sqldiff
-        run: |
-          rm -rf sqlite-src-3380200
-          curl -O https://www.sqlite.org/2022/sqlite-src-3380200.zip
-          unzip sqlite-src-3380200
-          cd sqlite-src-3380200/tool
-          gcc -o sqldiff sqldiff.c -lsqlite3
-          sudo cp sqldiff /usr/local/bin
+#       - name: Setup sqldiff
+#         run: |
+#           rm -rf sqlite-src-3380200
+#           curl -O https://www.sqlite.org/2022/sqlite-src-3380200.zip
+#           unzip sqlite-src-3380200
+#           cd sqlite-src-3380200/tool
+#           gcc -o sqldiff sqldiff.c -lsqlite3
+#           sudo cp sqldiff /usr/local/bin
 
-      - name: Setup yarn
-        run: |
-          mkdir -p ~/.local/bin
-          curl -fsSL \
-            https://github.com/yarnpkg/yarn/releases/download/v1.22.18/yarn-1.22.18.js > ~/.local/bin/yarn
-          chmod +x ~/.local/bin/yarn
+#       - name: Setup yarn
+#         run: |
+#           mkdir -p ~/.local/bin
+#           curl -fsSL \
+#             https://github.com/yarnpkg/yarn/releases/download/v1.22.18/yarn-1.22.18.js > ~/.local/bin/yarn
+#           chmod +x ~/.local/bin/yarn
 
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-          cache: 'yarn'
+#       - uses: actions/setup-node@v2
+#         with:
+#           node-version: '16'
+#           cache: 'yarn'
 
       - name: Turnstyle
         uses: softprops/turnstyle@v1
@@ -66,7 +67,7 @@ jobs:
         run: node scripts/getLatestFPLDatabase.mjs --clone
 
       - name: Push
-        uses: github-actions-x/commit@v2.8
+        uses: github-actions-x/commit@v2.9
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           # push-branch: 'master'
