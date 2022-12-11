@@ -33,7 +33,7 @@
     "autoprefixer": "10.4.13",
     "eslint": "8.29.0",
     "eslint-config-next": "12.3.4",
-    "postcss": "8.4.19",
+    "postcss": "8.4.20",
     "prettier": "2.8.1",
     "tailwindcss": "3.2.4",
     "tasuku": "2.0.0",
