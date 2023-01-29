@@ -2962,10 +2962,10 @@ tapable@^2.2.0:
   resolved "https://registry.yarnpkg.com/tapable/-/tapable-2.2.1.tgz#1967a73ef4060a82f12ab96af86d52fdb76eeca0"
   integrity sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ==
 
-tasuku@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/tasuku/-/tasuku-2.0.0.tgz#82c6c886161a3b2baced98f74bbe8e94e997cd3d"
-  integrity sha512-8y1ZtIBzMfTy0/XxRW9gfGts/CPrt7zSMQEfjWXbLdEz09EcXaAZEAFg8vNV8WAlLUQfoIfaaikRJ0YrBWkGlA==
+tasuku@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/tasuku/-/tasuku-2.0.1.tgz#4dcb6726b9f392deec6557359ba8173648be40ed"
+  integrity sha512-BXWDEJzpC1mUiOz5Csba85LS93o9a5pGKRTArLiXJZ2HGF/mXHIl+4SBF706Yxqg+GlJDQurvLxds8tC7EwyRA==
   dependencies:
     yoga-layout-prebuilt "1.10.0"
 
