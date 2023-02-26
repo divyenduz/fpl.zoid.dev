@@ -31,7 +31,7 @@
     "@types/sql.js": "1.4.4",
     "arg": "5.0.2",
     "autoprefixer": "10.4.13",
-    "eslint": "8.34.0",
+    "eslint": "8.35.0",
     "eslint-config-next": "13.2.1",
     "postcss": "8.4.21",
     "prettier": "2.8.4",
