@@ -30,7 +30,7 @@ const Home: NextPage = () => {
           {getPageData().map((p) => (
             <li key={p.identifier}>
               <Link as={`/${p.slug}`} href="/[slug]">
-                <a>{p.text}</a>
+                {p.text}
               </Link>
             </li>
           ))}

@@ -29,18 +29,18 @@ const Home: NextPage = () => {
               <ol>
                 <li>
                   Converts data from{' '}
-                  <Link href="https://github.com/vaastav/Fantasy-Premier-League">
-                    <a target="_blank">
-                      https://github.com/vaastav/Fantasy-Premier-League
-                    </a>
-                  </Link>{' '}
+                  <Link
+                    href="https://github.com/vaastav/Fantasy-Premier-League"
+                    target="_blank"
+                  ></Link>
                   to SQLite
                 </li>
                 <li>
                   Uses{' '}
-                  <Link href="https://github.com/sql-js/sql.js">
-                    <a target="_blank">https://github.com/sql-js/sql.js</a>
-                  </Link>{' '}
+                  <Link
+                    href="https://github.com/sql-js/sql.js"
+                    target="_blank"
+                  ></Link>
                   to run it in browser
                 </li>
                 <li>
@@ -54,9 +54,10 @@ const Home: NextPage = () => {
                 </li>
                 <li>
                   Share the URL with me on my{' '}
-                  <Link href="https://twitter.com/divyenduz">
-                    <a target="_blank">https://twitter.com/divyenduz</a>
-                  </Link>
+                  <Link
+                    href="https://twitter.com/divyenduz"
+                    target="_blank"
+                  ></Link>
                   . I will collect and publish top strategies{' '}
                   <Link href="/top-strategies">here</Link>.
                 </li>

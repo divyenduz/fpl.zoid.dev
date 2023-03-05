@@ -14,26 +14,24 @@ export const Menu = () => {
       <Link href="/top-strategies" passHref>
         <Button type="secondary">Top Strategies</Button>
       </Link>
-      <Link href="https://twitter.com/divyenduz" passHref>
-        <a className="block" target="_blank" style={{ color: 'inherit' }}>
-          <Button icon={<Twitter />} type="secondary">
-            Contact me!
-          </Button>
-        </a>
+      <Link href="https://twitter.com/divyenduz" passHref target="_blank">
+        <Button icon={<Twitter />} type="secondary">
+          Contact me!
+        </Button>
       </Link>
-      <Link href="https://github.com/divyenduz/fpl.cool" passHref>
-        <a className="block" target="_blank" style={{ color: 'inherit' }}>
-          <Button icon={<Github />} type="secondary">
-            Source Code
-          </Button>
-        </a>
+      <Link
+        href="https://github.com/divyenduz/fpl.cool"
+        passHref
+        target="_blank"
+      >
+        <Button icon={<Github />} type="secondary">
+          Source Code
+        </Button>
       </Link>
-      <Link href="https://trackfootball.app" passHref>
-        <a className="block" target="_blank" style={{ color: 'inherit' }}>
-          <Button icon={<HeartFill />} type="secondary">
-            TrackFootball.app
-          </Button>
-        </a>
+      <Link href="https://trackfootball.app" target="_blank">
+        <Button icon={<HeartFill />} type="secondary">
+          TrackFootball.app
+        </Button>
       </Link>
     </div>
   )

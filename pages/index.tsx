@@ -93,11 +93,10 @@ const Home: NextPage<{
         <div className="flex flex-row flex-wrap gap-2">
           <div className="">
             <Note label="Data Source Credits">
-              <Link href="https://github.com/vaastav/Fantasy-Premier-League">
-                <a target="_blank">
-                  https://github.com/vaastav/Fantasy-Premier-League
-                </a>
-              </Link>
+              <Link
+                href="https://github.com/vaastav/Fantasy-Premier-League"
+                target="_blank"
+              ></Link>
             </Note>
           </div>
           <div className="">
