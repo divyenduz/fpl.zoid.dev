@@ -11,7 +11,7 @@ import { ResultSet } from '../components/ResultSet'
 import { SchemaTree } from '../components/SchemaTree'
 import { useSQL } from '../hooks/useSQL'
 import { decodeHash, encodeHash } from '../lib/base64'
-import { getDefaultQuery, getRowDataFromResultSet } from '../lib/sql'
+import { getDefaultQuery } from '../lib/sql'
 
 const Home: NextPage<{
   slug: string
@@ -39,21 +39,15 @@ const Home: NextPage<{
     }
   }, [slug])
 
-  const { setQuery, result, structure, error } = useSQL({
+  const { setQuery, data, structureData, error } = useSQL({
     query: queryDraft,
     databasePath: '/static/fpl.db',
   })
 
-  const { result: resultLastUpdated } = useSQL({
-    query: `SELECT strftime('%d.%m.%Y %H:%M:%S (local time)', datetime(lastUpdated, 'localtime')) FROM meta;`,
+  const { data: resultLastUpdated } = useSQL<{ lastUpdated: string }>({
+    query: `SELECT strftime('%d.%m.%Y %H:%M:%S (local time)', datetime(lastUpdated, 'localtime')) as "lastUpdated" FROM meta;`,
     databasePath: '/static/fpl.db',
   })
-
-  const columns = result?.[0]?.columns || []
-  const data = getRowDataFromResultSet(columns, result || [])
-
-  const structureColumns = structure?.[0]?.columns || []
-  let structureData = getRowDataFromResultSet(structureColumns, structure || [])
 
   useEffect(() => {
     const urlStateHash = encodeHash({ text, queryDraft })
@@ -91,7 +85,7 @@ const Home: NextPage<{
           </div>
           <div className="">
             <Note label="Last Updated">
-              {resultLastUpdated?.[0].values?.[0] || 'Loading'}
+              {resultLastUpdated?.[0].lastUpdated || 'Loading'}
             </Note>
           </div>
         </div>
@@ -147,7 +141,7 @@ const Home: NextPage<{
 
         {data && (
           <Card>
-            <ResultSet columns={columns} data={data} />
+            <ResultSet data={data} />
           </Card>
         )}
       </main>

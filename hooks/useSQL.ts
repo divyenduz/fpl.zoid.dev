@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react'
 import type { Database, QueryExecResult, SqlValue } from 'sql.js'
 
-import { getAllColumns } from '../lib/sql'
+import { getAllColumns, getRowDataFromResultSet } from '../lib/sql'
 
 interface UseSQLArgs {
   query: string
   databasePath: string
 }
 
-export function useSQL({ query: queryArg, databasePath }: UseSQLArgs) {
+export function useSQL<T = Record<string, string>>({
+  query: queryArg,
+  databasePath,
+}: UseSQLArgs) {
   const [retryCount, setRetryCount] = useState(0)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -74,10 +77,19 @@ export function useSQL({ query: queryArg, databasePath }: UseSQLArgs) {
     load()
   }, [retryCount, query, databasePath, structureQuery])
 
+  const columns = result?.[0]?.columns || []
+  const data = getRowDataFromResultSet(columns, result || [])
+
+  const structureColumns = structure?.[0]?.columns || []
+  const structureData = getRowDataFromResultSet(
+    structureColumns,
+    structure || [],
+  )
+
   return {
     schema,
-    structure,
-    result,
+    structureData,
+    data: data as T[],
     loading,
     error,
     query,

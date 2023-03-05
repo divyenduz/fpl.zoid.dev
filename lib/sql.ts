@@ -17,16 +17,18 @@ export function formatQuery(query: string) {
 export function getRowDataFromResultSet(
   columns: string[],
   result: QueryExecResult[],
-): { tableName: string; columnName: string }[] {
+) {
   const data = result?.[0]?.values.map((row: SqlValue[]) => {
-    return row.reduce((acc, column: SqlValue, index) => {
+    return row.reduce((acc, rowValue: SqlValue, index) => {
+      const currentColumnName = columns?.[index]
+
       return {
         ...acc,
-        [`${columns?.[index]}`]: column,
+        [`${currentColumnName}`]: rowValue,
       }
     }, {})
   })
-  return data as { tableName: string; columnName: string }[]
+  return data
 }
 
 export function getDefaultQuery() {
