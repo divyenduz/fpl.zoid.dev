@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react'
 import { match } from 'ts-pattern'
 
 import { ActionButtons } from '../components/ActionButtons'
-import Editor from '../components/Editor'
 import { Menu } from '../components/Menu'
 import { ResultSet } from '../components/ResultSet'
 import { SchemaTree } from '../components/SchemaTree'
@@ -17,7 +16,6 @@ import { getDefaultQuery, getRowDataFromResultSet } from '../lib/sql'
 const Home: NextPage<{
   slug: string
 }> = ({ slug }) => {
-  console.log({ slug })
   const defaultState = {
     text: 'Write a quick description of your strategy!',
     defaultQuery: getDefaultQuery(),
@@ -37,10 +35,7 @@ const Home: NextPage<{
           setText(decodedState.text)
           setQueryDraft(decodedState.queryDraft)
         })
-        .with('PARSE_FAIL', () => {
-          // Console logs in decode hash
-        })
-        .exhaustive()
+        .otherwise(() => {})
     }
   }, [slug])
 
@@ -61,14 +56,9 @@ const Home: NextPage<{
   let structureData = getRowDataFromResultSet(structureColumns, structure || [])
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      const urlStateHash = encodeHash({ text, queryDraft })
-      setSlugLength(urlStateHash.length)
-    }, 1000)
-    return () => {
-      clearInterval(timer)
-    }
-  })
+    const urlStateHash = encodeHash({ text, queryDraft })
+    setSlugLength(urlStateHash.length)
+  }, [text, queryDraft])
 
   return (
     <div>
@@ -135,16 +125,16 @@ const Home: NextPage<{
 
           <div className="m-2"></div>
 
-          <Editor
-            lang="sql"
-            dialect="postgresql"
-            theme="dark"
+          <Textarea
+            type="success"
+            rows={100}
+            cols={200}
             style={{ width: '100%', height: '450px', marginBottom: 10 }}
             value={queryDraft}
-            onChange={(code: string) => {
-              setQueryDraft(code)
+            onChange={(e) => {
+              setQueryDraft(e.target.value)
             }}
-          ></Editor>
+          />
         </Card>
 
         <ActionButtons

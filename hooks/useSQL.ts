@@ -34,14 +34,12 @@ export function useSQL({ query: queryArg, databasePath }: UseSQLArgs) {
 
   useEffect(() => {
     const load = async () => {
-      console.log({ retryCount })
       setLoading(true)
 
       //@ts-ignore
       const initSqlJs = window.initSqlJs
 
       if (!initSqlJs) {
-        console.log('sql.js has not loaded yet')
         return
       }
 
