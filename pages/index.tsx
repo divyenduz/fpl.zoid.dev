@@ -58,10 +58,9 @@ const Home: NextPage<{
     <div>
       <Head>
         <title>
-          FPL.lol
           {match(Boolean(text))
-            .with(true, () => ` - ${text}`)
-            .with(false, () => '')
+            .with(true, () => `FPL.lol - ${text}`)
+            .with(false, () => 'FPL.lol')
             .exhaustive()}
         </title>
         <meta
