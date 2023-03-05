@@ -64,7 +64,7 @@ const Home: NextPage<{
     <div>
       <Head>
         <title>
-          FPL.cool
+          FPL.lol
           {match(Boolean(text))
             .with(true, () => ` - ${text}`)
             .with(false, () => '')
@@ -72,7 +72,7 @@ const Home: NextPage<{
         </title>
         <meta
           name="description"
-          content="FPL.cool - analyse fantasy premier league data with SQL"
+          content="FPL.lol - analyse fantasy premier league data with SQL"
         />
         <link rel="icon" href="/favicon.png" />
       </Head>

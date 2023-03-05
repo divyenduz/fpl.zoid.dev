@@ -9,10 +9,10 @@ const Home: NextPage = () => {
   return (
     <div>
       <Head>
-        <title>FPL.cool</title>
+        <title>FPL.lol</title>
         <meta
           name="description"
-          content="FPL.cool - analyse fantasy premier league data with SQL"
+          content="FPL.lol - analyse fantasy premier league data with SQL"
         />
         <link rel="icon" href="/favicon.png" />
       </Head>

@@ -1,12 +1,12 @@
-import { Button, Card, Note, Textarea } from '@geist-ui/react'
+import { Button, ButtonGroup } from '@geist-ui/react'
 import { Github, HeartFill, Twitter } from '@geist-ui/react-icons'
 import Link from 'next/link'
 
 export const Menu = () => {
   return (
-    <div className="flex flex-row flex-wrap m-4 gap-x-1 sm:gap-x-2 gap-y-2">
+    <ButtonGroup>
       <Link href="/" passHref>
-        <Button type="secondary">FPL.cool Home</Button>
+        <Button type="secondary">FPL.lol Home</Button>
       </Link>
       <Link href="/how-it-works" passHref>
         <Button type="secondary">How it works</Button>
@@ -20,7 +20,7 @@ export const Menu = () => {
         </Button>
       </Link>
       <Link
-        href="https://github.com/divyenduz/fpl.cool"
+        href="https://github.com/divyenduz/fpl.lol"
         passHref
         target="_blank"
       >
@@ -33,6 +33,6 @@ export const Menu = () => {
           TrackFootball.app
         </Button>
       </Link>
-    </div>
+    </ButtonGroup>
   )
 }
