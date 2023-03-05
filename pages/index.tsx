@@ -80,7 +80,9 @@ const Home: NextPage<{
               <Link
                 href="https://github.com/vaastav/Fantasy-Premier-League"
                 target="_blank"
-              ></Link>
+              >
+                https://github.com/vaastav/Fantasy-Premier-League
+              </Link>
             </Note>
           </div>
           <div className="">
