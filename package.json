@@ -22,7 +22,7 @@
     "ts-pattern": "4.3.0"
   },
   "devDependencies": {
-    "@trivago/prettier-plugin-sort-imports": "4.1.1",
+    "@trivago/prettier-plugin-sort-imports": "4.2.0",
     "@types/base-64": "1.0.0",
     "@types/node": "18.16.19",
     "@types/react": "18.2.15",
