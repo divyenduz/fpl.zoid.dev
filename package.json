@@ -19,7 +19,7 @@
     "react-dom": "18.2.0",
     "react-no-ssr": "1.1.0",
     "sql-formatter": "4.0.2",
-    "ts-pattern": "4.3.0"
+    "ts-pattern": "5.0.5"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "4.2.0",
