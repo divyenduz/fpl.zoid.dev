@@ -38,7 +38,7 @@ export function useSQL<T = Record<string, string>>({
 
     setTimeout(() => {
       load()
-    }, 50)
+    }, 500)
   }, [])
 
   useEffect(() => {
