@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet'
 import 'tailwindcss/tailwind.css'
 
 import { ActionButtons } from '../components/ActionButtons'
+import { Menu } from '../components/Menu'
 // import { Menu } from '../components/Menu'
 import { ResultSet } from '../components/ResultSet'
 import { SchemaTree } from '../components/SchemaTree'
@@ -46,20 +47,10 @@ function App() {
       <div className="App">
         <div>
           <Helmet>
-            <title>
-              FPL.zoid.dev - analyse fantasy premier league data with SQL
-            </title>
-            <meta
-              name="description"
-              content="FPL.lol - analyse fantasy premier league data with SQL"
-            />
             <link rel="icon" href={FAVICON_PATH} />
-
-            <link
-              href="https://fonts.googleapis.com/css?family=Material+Icons&display=optional"
-              rel="stylesheet"
-            />
           </Helmet>
+
+          <Menu />
 
           <main className="p-4 space-y-2">
             <div className="flex flex-row flex-wrap gap-2">
