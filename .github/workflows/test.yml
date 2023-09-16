@@ -11,26 +11,14 @@ env:
 jobs:
   build:
     name: Test
-    timeout-minutes: 15
-#     runs-on: [self-hosted]
+    timeout-minutes: 5
     runs-on: [ubuntu-20.04]
     steps:
       - uses: actions/checkout@v3
-
-      - name: Setup yarn
-        run: |
-          mkdir -p ~/.local/bin
-          curl -fsSL \
-            https://github.com/yarnpkg/yarn/releases/download/v1.22.18/yarn-1.22.18.js > ~/.local/bin/yarn
-          chmod +x ~/.local/bin/yarn
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-          cache: 'yarn'
+      - uses: oven-sh/setup-bun@v1
 
       - name: Install Dependencies
-        run: echo "Installing dependencies" && yarn install && echo "Done installing dependencies"
+        run: bun install
 
       - name: Run Tests
-        run: yarn test
+        run: bun run test
