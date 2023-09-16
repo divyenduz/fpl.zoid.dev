@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet'
 import 'tailwindcss/tailwind.css'
 
 import { ActionButtons } from '../components/ActionButtons'
+import { Menu } from '../components/Menu'
 // import { Menu } from '../components/Menu'
 import { ResultSet } from '../components/ResultSet'
 import { SchemaTree } from '../components/SchemaTree'
@@ -12,8 +13,9 @@ import { useSQL } from '../hooks/useSQL'
 import { getAllColumns, getDefaultQuery } from '../lib/sql'
 import './App.css'
 import FAVICON_PATH from './assets/favicon.png'
-//@ts-expect-error don't have types for .db ofcourse
-import FPL_DB_PATH from './assets/fpl.db'
+import FPL_DB_PATH from './assets/fpl.db?url'
+import SQL_WASM_JS_PATH from './assets/sql.js/1.8.0/sql-wasm.js?url'
+import SQL_WASM_WASM_PATH from './assets/sql.js/1.8.0/sql-wasm.wasm?url'
 
 const customTheme = Themes.createFromLight({
   type: 'customTheme',
@@ -25,11 +27,13 @@ function App() {
   const { data, error, setQuery } = useSQL({
     query: getDefaultQuery(),
     databasePath: FPL_DB_PATH,
+    sqlWASMPath: SQL_WASM_WASM_PATH,
   })
 
   const { data: resultLastUpdated } = useSQL<{ lastUpdated: string }>({
     query: `SELECT strftime('%d.%m.%Y %H:%M:%S (local time)', datetime(lastUpdated, 'localtime')) as "lastUpdated" FROM meta;`,
     databasePath: FPL_DB_PATH,
+    sqlWASMPath: SQL_WASM_WASM_PATH,
   })
 
   const { data: structureData } = useSQL<{
@@ -38,6 +42,7 @@ function App() {
   }>({
     query: getAllColumns(),
     databasePath: FPL_DB_PATH,
+    sqlWASMPath: SQL_WASM_WASM_PATH,
   })
 
   return (
@@ -46,20 +51,11 @@ function App() {
       <div className="App">
         <div>
           <Helmet>
-            <title>
-              FPL.zoid.dev - analyse fantasy premier league data with SQL
-            </title>
-            <meta
-              name="description"
-              content="FPL.lol - analyse fantasy premier league data with SQL"
-            />
             <link rel="icon" href={FAVICON_PATH} />
-
-            <link
-              href="https://fonts.googleapis.com/css?family=Material+Icons&display=optional"
-              rel="stylesheet"
-            />
+            <script src={SQL_WASM_JS_PATH}></script>
           </Helmet>
+
+          <Menu />
 
           <main className="p-4 space-y-2">
             <div className="flex flex-row flex-wrap gap-2">
