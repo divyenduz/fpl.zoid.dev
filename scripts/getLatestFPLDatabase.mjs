@@ -10,6 +10,8 @@ const args = arg({
 })
 const clone = args['--clone'] || false
 
+const FPL_DB_PATH = 'src/assets/fpl.db'
+
 await task('setup git', async () => {
   await $`mkdir -p ~/.ssh`
   await $`touch ~/.ssh/known_hosts`
@@ -59,14 +61,14 @@ EOF`
 
 await task('sqlite - change lastUpdated and move db when it has changed', async () => {
   // DROP meta, compare only players
-  await $`sqlite3 public/static/fpl.db << EOF
-DROP TABLE meta;
+  await $`sqlite3 ${FPL_DB_PATH} << EOF
+DROP TABLE IF EXISTS meta;
 EOF`
-  const r = await $`sqldiff fpl.db public/static/fpl.db`
+  const r = await $`sqldiff fpl.db ${FPL_DB_PATH}`
   if (r.stdout.trim() === '') {
     // No not changed
     console.log('DB has not changed, revert the DROP meta change')
-    await $`git checkout public/static/fpl.db`
+    await $`git checkout ${FPL_DB_PATH}`
   } else {
     // DB Changed
     console.log('DB has changed, adding timestamp and moving the file')
@@ -76,6 +78,6 @@ EOF`
   );
   INSERT INTO meta (lastUpdated) VALUES (CURRENT_TIMESTAMP)
 EOF`
-    await $`mv fpl.db public/static/fpl.db`
+    await $`mv fpl.db ${FPL_DB_PATH}`
   }
 })

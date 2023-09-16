@@ -12,8 +12,7 @@ env:
 jobs:
   restore:
     name: Update Database
-    timeout-minutes: 30
-#     runs-on: [self-hosted]
+    timeout-minutes: 10
     runs-on: [ubuntu-20.04]
     if: endsWith(github.ref, '/main')
     steps:
@@ -23,37 +22,7 @@ jobs:
           access_token: ${{ github.token }}
 
       - uses: actions/checkout@v3
-
-#       - name: Setup sqlite3
-#         run: |
-#           rm -rf sqlite-autoconf-3380200
-#           curl -O https://www.sqlite.org/2022/sqlite-autoconf-3380200.tar.gz
-#           tar -xvf sqlite-autoconf-3380200.tar.gz
-#           cd sqlite-autoconf-3380200
-#           ./configure
-#           make
-#           sudo make install
-
-#       - name: Setup sqldiff
-#         run: |
-#           rm -rf sqlite-src-3380200
-#           curl -O https://www.sqlite.org/2022/sqlite-src-3380200.zip
-#           unzip sqlite-src-3380200
-#           cd sqlite-src-3380200/tool
-#           gcc -o sqldiff sqldiff.c -lsqlite3
-#           sudo cp sqldiff /usr/local/bin
-
-#       - name: Setup yarn
-#         run: |
-#           mkdir -p ~/.local/bin
-#           curl -fsSL \
-#             https://github.com/yarnpkg/yarn/releases/download/v1.22.18/yarn-1.22.18.js > ~/.local/bin/yarn
-#           chmod +x ~/.local/bin/yarn
-
-#       - uses: actions/setup-node@v2
-#         with:
-#           node-version: '16'
-#           cache: 'yarn'
+      - uses: oven-sh/setup-bun@v1
 
       - name: Turnstyle
         uses: softprops/turnstyle@v1
@@ -61,7 +30,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install Dependencies
-        run: echo "Installing dependencies" && yarn install && echo "Done installing dependencies"
+        run: bun install
 
       - name: Update Database
         run: node scripts/getLatestFPLDatabase.mjs --clone
@@ -73,7 +42,7 @@ jobs:
           # push-branch: 'master'
           commit-message: '[skip ci] Update Database'
           force-add: 'true'
-          files: public/static/fpl.db
+          files: src/assets/fpl.db
           name: Divyendu Singh (Bot)
           email: divyendu.z@gmail.com
           rebase: 'true'
