@@ -1,26 +1,26 @@
 import { useEffect, useState } from 'react'
-import type { Database, QueryExecResult, SqlValue } from 'sql.js'
+import { type Database, type QueryExecResult, SqlJsStatic } from 'sql.js'
 
 import { getRowDataFromResultSet } from '../lib/sql'
 
 interface UseSQLArgs {
   query: string
   databasePath: string
+  sqlWASMPath: string
 }
 
 export function useSQL<T = Record<string, string>>({
   query: queryArg,
   databasePath,
+  sqlWASMPath,
 }: UseSQLArgs) {
-  const [loading, setLoading] = useState(false)
+  const [SQL, setSQL] = useState<SqlJsStatic | null>(null)
   const [error, setError] = useState('')
   const [query, setQuery] = useState(queryArg)
   const [result, setResult] = useState<QueryExecResult[]>([])
 
   useEffect(() => {
     const load = async () => {
-      setLoading(true)
-
       const initSqlJs = window.initSqlJs
 
       if (!initSqlJs) {
@@ -30,9 +30,23 @@ export function useSQL<T = Record<string, string>>({
 
       const SQL = await initSqlJs({
         locateFile: (url, scriptDirectory) => {
-          return `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.wasm`
+          return sqlWASMPath
         },
       })
+      setSQL(SQL)
+    }
+
+    setTimeout(() => {
+      load()
+    }, 50)
+  }, [])
+
+  useEffect(() => {
+    const load = async () => {
+      if (!SQL) {
+        console.error(`Failed to initialize SQL.js`)
+        return
+      }
 
       const r = await fetch(databasePath)
       const db = await r.arrayBuffer()
@@ -43,23 +57,20 @@ export function useSQL<T = Record<string, string>>({
           const result = database.exec(query)
           setResult(result)
         }
-        setLoading(false)
         setError('')
       } catch (e: any) {
         setResult([])
-        setLoading(false)
         setError(e.toString())
       }
     }
     load()
-  }, [query, databasePath])
+  }, [query, databasePath, SQL])
 
   const columns = result?.[0]?.columns || []
   const data = getRowDataFromResultSet(columns, result || [])
 
   return {
     data: data as T[],
-    loading,
     error,
     setQuery,
   }

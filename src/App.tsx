@@ -13,8 +13,9 @@ import { useSQL } from '../hooks/useSQL'
 import { getAllColumns, getDefaultQuery } from '../lib/sql'
 import './App.css'
 import FAVICON_PATH from './assets/favicon.png'
-//@ts-expect-error don't have types for .db ofcourse
-import FPL_DB_PATH from './assets/fpl.db'
+import FPL_DB_PATH from './assets/fpl.db?url'
+import SQL_WASM_JS_PATH from './assets/sql.js/1.8.0/sql-wasm.js?url'
+import SQL_WASM_WASM_PATH from './assets/sql.js/1.8.0/sql-wasm.wasm?url'
 
 const customTheme = Themes.createFromLight({
   type: 'customTheme',
@@ -26,11 +27,13 @@ function App() {
   const { data, error, setQuery } = useSQL({
     query: getDefaultQuery(),
     databasePath: FPL_DB_PATH,
+    sqlWASMPath: SQL_WASM_WASM_PATH,
   })
 
   const { data: resultLastUpdated } = useSQL<{ lastUpdated: string }>({
     query: `SELECT strftime('%d.%m.%Y %H:%M:%S (local time)', datetime(lastUpdated, 'localtime')) as "lastUpdated" FROM meta;`,
     databasePath: FPL_DB_PATH,
+    sqlWASMPath: SQL_WASM_WASM_PATH,
   })
 
   const { data: structureData } = useSQL<{
@@ -39,6 +42,7 @@ function App() {
   }>({
     query: getAllColumns(),
     databasePath: FPL_DB_PATH,
+    sqlWASMPath: SQL_WASM_WASM_PATH,
   })
 
   return (
@@ -48,6 +52,7 @@ function App() {
         <div>
           <Helmet>
             <link rel="icon" href={FAVICON_PATH} />
+            <script src={SQL_WASM_JS_PATH}></script>
           </Helmet>
 
           <Menu />
