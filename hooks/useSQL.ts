@@ -64,17 +64,19 @@ export function useSQL<T = Record<string, string>>({
         }),
       )
       const runnable = Effect.provide(program, DatabaseServiceLive)
-      const r = Effect.match(runnable, {
-        onFailure: (e) => {
-          setError(e.message)
-          setResult([])
-        },
-        onSuccess: (result) => {
+
+      runnable.pipe(
+        Effect.map((result) => {
           setResult(result)
           setError('')
-        },
-      })
-      Effect.runPromise(r)
+        }),
+        Effect.catchAll((e) => {
+          console.error(e)
+          setError(e.message)
+          return Effect.succeed([])
+        }),
+        Effect.runPromise,
+      )
     }
     load()
   }, [query, databasePath, SQL])
