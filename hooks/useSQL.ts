@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react'
-import { type Database, type QueryExecResult, SqlJsStatic } from 'sql.js'
+import { type QueryExecResult, SqlJsStatic } from 'sql.js'
 
 import { getRowDataFromResultSet } from '../lib/sql'
+import { Effect } from 'effect'
+import {
+  DatabaseService,
+  DatabaseServiceLive,
+} from '../effects/DatabaseService'
 
 interface UseSQLArgs {
   query: string
@@ -48,20 +53,28 @@ export function useSQL<T = Record<string, string>>({
         return
       }
 
-      const r = await fetch(databasePath)
-      const db = await r.arrayBuffer()
-      const database = new SQL.Database(new Uint8Array(db)) as Database
-
-      try {
-        if (query) {
-          const result = database.exec(query)
+      const program = DatabaseService.pipe(
+        Effect.flatMap((databaseService) => {
+          const database = databaseService.database(SQL, databasePath)
+          return database.pipe(
+            Effect.flatMap((database) => {
+              return databaseService.executeQuery(database, query)
+            }),
+          )
+        }),
+      )
+      const runnable = Effect.provide(program, DatabaseServiceLive)
+      const r = Effect.match(runnable, {
+        onFailure: (e) => {
+          setError(e.message)
+          setResult([])
+        },
+        onSuccess: (result) => {
           setResult(result)
-        }
-        setError('')
-      } catch (e: any) {
-        setResult([])
-        setError(e.toString())
-      }
+          setError('')
+        },
+      })
+      Effect.runPromise(r)
     }
     load()
   }, [query, databasePath, SQL])

@@ -1,17 +1,21 @@
 import { format } from 'sql-formatter'
 import { QueryExecResult, SqlValue } from 'sql.js'
+import { Effect } from 'effect'
 
 export function formatQuery(query: string) {
-  try {
-    return format(query, {
-      language: 'postgresql',
-      uppercase: true,
-    })
-  } catch (e) {
-    console.error(`Failed to format SQL`)
-    console.error(e)
-    return query
-  }
+  const program = Effect.try({
+    try: () =>
+      format(query, {
+        language: 'postgresql',
+        uppercase: true,
+      }),
+    catch: (e) => {
+      console.error(`Failed to format SQL`)
+      console.error(e)
+      return query
+    },
+  })
+  return program
 }
 
 export function getRowDataFromResultSet(
@@ -54,14 +58,14 @@ LIMIT 20`
 
 export function getAllColumns() {
   return `
-SELECT
-  m.name AS tableName,
-  p.name AS columnName
-FROM
-  sqlite_master m
-  LEFT OUTER JOIN pragma_table_info((m.name)) p ON m.name <> p.name
-ORDER BY
-  tableName,
-  columnName;
-    `
+  SELECT
+    m.name AS tableName,
+    p.name AS columnName
+  FROM
+    sqlite_master m
+    LEFT OUTER JOIN pragma_table_info((m.name)) p ON m.name <> p.name
+  ORDER BY
+    tableName,
+    columnName;
+      `
 }
