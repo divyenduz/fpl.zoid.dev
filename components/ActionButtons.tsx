@@ -1,6 +1,7 @@
 import { Button } from '@geist-ui/react'
 
 import { formatQuery } from '../lib/sql'
+import { Effect } from 'effect'
 
 interface ActionButtonsArgs {
   queryDraft: string
@@ -29,7 +30,8 @@ export const ActionButtons = ({
         ghost
         type="secondary"
         onClick={() => {
-          setQueryDraft(formatQuery(queryDraft))
+          const query = Effect.runSync(formatQuery(queryDraft))
+          setQueryDraft(query)
         }}
       >
         Format SQL
