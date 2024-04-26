@@ -1,6 +1,8 @@
 Fantasy-Premier-League/
 ./fpl.db
 
+.next/
+
 # Logs
 logs
 *.log

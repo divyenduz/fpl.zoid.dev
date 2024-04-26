@@ -1,7 +1,7 @@
-import { Button } from '@geist-ui/react'
+import { Button } from '@/components/ui/button'
+import { Effect } from 'effect'
 
 import { formatQuery } from '../lib/sql'
-import { Effect } from 'effect'
 
 interface ActionButtonsArgs {
   queryDraft: string
@@ -17,8 +17,6 @@ export const ActionButtons = ({
   return (
     <div className="flex flex-row flex-wrap m-4 gap-x-1 sm:gap-x-2 gap-y-2">
       <Button
-        ghost
-        type="secondary"
         onClick={() => {
           setQuery(queryDraft)
         }}
@@ -27,8 +25,6 @@ export const ActionButtons = ({
       </Button>
 
       <Button
-        ghost
-        type="secondary"
         onClick={() => {
           const query = Effect.runSync(formatQuery(queryDraft))
           setQueryDraft(query)
