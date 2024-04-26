@@ -44,7 +44,7 @@ export function useSQL<T = Record<string, string>>({
     setTimeout(() => {
       load()
     }, 500)
-  }, [])
+  }, [sqlWASMPath])
 
   useEffect(() => {
     const load = async () => {
