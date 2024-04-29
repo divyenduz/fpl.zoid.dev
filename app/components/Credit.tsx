@@ -1,6 +1,6 @@
 'use client'
 
-import { AppCss } from 'app/page'
+import { Card } from './Card'
 
 interface Props {
   lastUpdated?: string
@@ -8,20 +8,19 @@ interface Props {
 
 export const Credit = ({ lastUpdated }: Props) => {
   return (
-    <div className="flex flex-row flex-wrap gap-2">
-      <div className={AppCss.Card}>
-        <label className={AppCss.NoteCss}>Data Source Credits: </label>
+    <div className="grid grid-cols-2 gap-2 grid-row">
+      <Card title="Data Source Credits">
         <a
           href="https://github.com/vaastav/Fantasy-Premier-League"
           target="_blank"
         >
           https://github.com/vaastav/Fantasy-Premier-League
         </a>
-      </div>
-      <div className={AppCss.Card}>
-        <label className={AppCss.NoteCss}>Last Updated: </label>
+      </Card>
+
+      <Card title="Last Updated">
         <span>{lastUpdated || 'Loading'}</span>
-      </div>
+      </Card>
     </div>
   )
 }

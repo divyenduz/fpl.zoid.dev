@@ -11,7 +11,7 @@ import Link from 'next/link'
 
 export const Menu = () => {
   return (
-    <div>
+    <div className="flex items-center justify-center w-full">
       <NavigationMenu className="flex items-center justify-center border-2 border-gray-300 bg-gray-50 border-solid rounded-[5px]">
         <NavigationMenuList>
           <NavigationMenuItem>
@@ -23,13 +23,11 @@ export const Menu = () => {
           </NavigationMenuItem>
 
           <NavigationMenuItem>
-            <Link
-              href="https://twitter.com/divyenduz"
-              target="_blank"
-              legacyBehavior
-              passHref
-            >
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+            <Link href="https://twitter.com/divyenduz" legacyBehavior passHref>
+              <NavigationMenuLink
+                className={navigationMenuTriggerStyle()}
+                target="_blank"
+              >
                 Contact me!
               </NavigationMenuLink>
             </Link>
@@ -38,24 +36,24 @@ export const Menu = () => {
           <NavigationMenuItem>
             <Link
               href="https://github.com/divyenduz/fpl.zoid.dev"
-              target="_blank"
               legacyBehavior
               passHref
             >
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              <NavigationMenuLink
+                className={navigationMenuTriggerStyle()}
+                target="_blank"
+              >
                 Source Code
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
 
           <NavigationMenuItem>
-            <Link
-              href="https://trackfootball.app"
-              target="_blank"
-              legacyBehavior
-              passHref
-            >
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+            <Link href="https://trackfootball.app" legacyBehavior passHref>
+              <NavigationMenuLink
+                className={navigationMenuTriggerStyle()}
+                target="_blank"
+              >
                 TrackFootball.app
               </NavigationMenuLink>
             </Link>

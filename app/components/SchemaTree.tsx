@@ -26,7 +26,7 @@ export const SchemaTree = ({ data }: { data: Record<string, string>[] }) => {
           return (
             <AccordionItem key={key} value={key}>
               <AccordionTrigger className="w-16">{key}</AccordionTrigger>
-              <div className="grid grid-cols-4 gap-2 pt-2 grid-row">
+              <div className="grid grid-cols-2 gap-2 pt-2 grid-row">
                 {structureDataTree[key].map((c) => (
                   <AccordionContent key={key + c} className="col-1">
                     {c}

@@ -1,17 +1,21 @@
 import { Button } from '@/components/ui/button'
 import { Effect } from 'effect'
+import { Dispatch, SetStateAction } from 'react'
 
 import { formatQuery } from '../lib/sql'
+import { PublishDialog } from './PublishDialog'
 
 interface ActionButtonsArgs {
   queryDraft: string
-  setQueryDraft: any
-  setQuery: any
+  setQueryDraft: Dispatch<SetStateAction<string>>
+  query: string
+  setQuery: Dispatch<SetStateAction<string>>
 }
 
 export const ActionButtons = ({
   queryDraft,
   setQueryDraft,
+  query,
   setQuery,
 }: ActionButtonsArgs) => {
   return (
@@ -21,7 +25,7 @@ export const ActionButtons = ({
           setQuery(queryDraft)
         }}
       >
-        Execute
+        Execute SQL
       </Button>
 
       <Button
@@ -32,6 +36,8 @@ export const ActionButtons = ({
       >
         Format SQL
       </Button>
+
+      <PublishDialog query={query}></PublishDialog>
     </div>
   )
 }
