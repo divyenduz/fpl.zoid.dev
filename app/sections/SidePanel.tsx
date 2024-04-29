@@ -14,10 +14,6 @@ import { FPL_DB_PATH, SQL_WASM_WASM_PATH } from './Dashboard'
 export const Strategies = () => {
   const electric = useElectric()
 
-  if (!electric) {
-    return null
-  }
-
   const { db } = electric
 
   const { results: strategies } = useLiveQuery(
@@ -35,6 +31,10 @@ export const Strategies = () => {
     }
     f()
   }, [])
+
+  if (!electric) {
+    return null
+  }
 
   return (
     <Card title="Strategies">
