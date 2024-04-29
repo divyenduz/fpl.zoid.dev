@@ -1,6 +1,8 @@
 Fantasy-Premier-League/
 ./fpl.db
 
+.env
+
 related-links.txt
 
 .next/
