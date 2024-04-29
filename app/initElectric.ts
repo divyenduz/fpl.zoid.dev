@@ -16,6 +16,5 @@ export async function initElectric() {
      * in production and the UI is progressive.
      */
     await electric.connect('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTcxNDE0MTI2NCwiZXhwIjoxODE0MTQ0ODY0fQ.hWCagfn6D_uRKJRldciJQvPCB94JqLXTG6LTfwdyEJw')
-    const db = electric.db
-    return { electric, db }
+    return { electric }
 }

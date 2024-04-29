@@ -23,7 +23,7 @@ export function Providers({ children }: Props) {
   }, [])
 
   if (!electric) {
-    return <div>{children}</div>
+    return <>{children}</>
   }
 
   return <ElectricProvider db={electric}>{children}</ElectricProvider>

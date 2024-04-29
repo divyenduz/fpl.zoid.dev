@@ -1,8 +1,6 @@
 import Dashboard from './sections/Dashboard'
 import { SidePanel } from './sections/SidePanel'
 
-export const dynamic = 'force-dynamic'
-
 function App() {
   return (
     <div className="grid w-full grid-cols-4 gap-2 grid-row">
