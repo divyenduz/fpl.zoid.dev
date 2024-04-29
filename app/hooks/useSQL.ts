@@ -87,6 +87,7 @@ export function useSQL<T = Record<string, string>>({
   return {
     data: data as T[],
     error,
+    query,
     setQuery,
   }
 }
